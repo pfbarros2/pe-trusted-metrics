@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.cache/
+data/duckdb/
+*.duckdb
+.env
+agent-tools/
+*.egg-info/
+.DS_Store
+results/llm_runs/*.partial.jsonl

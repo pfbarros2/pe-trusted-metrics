@@ -1,0 +1,12 @@
+{
+  "fiction": true,
+  "companies": 2,
+  "month_rows_per_company": 24,
+  "first_month": "2024-01-31",
+  "last_month": "2025-12-31",
+  "north_approval_rate": "0.40",
+  "west_approval_rate": "0.12",
+  "reporting_currency": "GBP",
+  "harness": "deterministic_stand_in",
+  "language_model": false
+}

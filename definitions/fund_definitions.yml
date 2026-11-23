@@ -1,0 +1,274 @@
+# Agreed metric definitions for Madeup Holdco LP.
+# Madeup Holdco LP, Madeup North Logistics Ltd, and Madeup West Assemblies Inc
+# are fictional. This file is not client data and was not produced by NVIDIA
+# Auto Ontology. In that product, a person can later review and approve a
+# definition. Nothing in this demonstration has been through that step.
+
+fund:
+  code: madeup_holdco
+  legal_name: Madeup Holdco LP
+  reporting_currency: GBP
+  domicile: London
+  fiction_notice: >
+    Madeup Holdco LP, Madeup North Logistics Ltd, and Madeup West Assemblies
+    Inc are fictional names created for this demonstration. The ledgers are
+    synthetic. They are not a real fund, not real portfolio companies, and
+    not client data.
+
+ownership:
+  method: line_by_line_sum
+  share: "100 percent of each portfolio company"
+  excluded:
+    - non-controlling interest
+    - purchase-price allocation
+    - goodwill
+    - other entities
+
+calendar:
+  ltm_months: 12
+  ltm_description: >
+    Twelve month-ends ending on the named month-end, inclusive.
+  fy_description: Calendar year, January through December.
+  h1_months: [1, 2, 3, 4, 5, 6]
+  h1_description: January through June, inclusive.
+  q4_months: [10, 11, 12]
+  q4_description: October through December, inclusive.
+  margin_aggregation: sum_of_numerator_over_sum_of_denominator
+  margin_note: >
+    EBITDA margin is the sum of Adjusted EBITDA divided by the sum of Net
+    Revenue over the same months, after translation. It is not an average
+    of monthly margins.
+  growth_note: Later period divided by earlier period, minus one.
+  margin_change_note: >
+    Later margin minus earlier margin, expressed in percentage points.
+
+fx:
+  table: holdco.ref.fx_monthly
+  date_column: period_end
+  rate_column: gbp_per_usd
+  pair: USDGBP
+  quote: GBP per 1 USD
+  fund_method: >
+    Multiply each USD month by that month's rate, round half away from zero
+    to the cent, then sum. Sterling amounts are already in the reporting
+    currency and are not converted.
+  baseline_stand_in_method: >
+    For a total across more than one month, multiply the summed USD amount
+    by the single rate on the window end date and round once. A one-month
+    row is translated at that month's rate.
+
+reference:
+  alias: holdco
+  file_name: madeup_holdco.duckdb
+  rates:
+    - {period_end: 2024-01-31, gbp_per_usd: "0.772000"}
+    - {period_end: 2024-02-29, gbp_per_usd: "0.781000"}
+    - {period_end: 2024-03-31, gbp_per_usd: "0.794000"}
+    - {period_end: 2024-04-30, gbp_per_usd: "0.806000"}
+    - {period_end: 2024-05-31, gbp_per_usd: "0.815000"}
+    - {period_end: 2024-06-30, gbp_per_usd: "0.819000"}
+    - {period_end: 2024-07-31, gbp_per_usd: "0.812000"}
+    - {period_end: 2024-08-31, gbp_per_usd: "0.799000"}
+    - {period_end: 2024-09-30, gbp_per_usd: "0.786000"}
+    - {period_end: 2024-10-31, gbp_per_usd: "0.774000"}
+    - {period_end: 2024-11-30, gbp_per_usd: "0.768000"}
+    - {period_end: 2024-12-31, gbp_per_usd: "0.771000"}
+    - {period_end: 2025-01-31, gbp_per_usd: "0.776000"}
+    - {period_end: 2025-02-28, gbp_per_usd: "0.788000"}
+    - {period_end: 2025-03-31, gbp_per_usd: "0.801000"}
+    - {period_end: 2025-04-30, gbp_per_usd: "0.809000"}
+    - {period_end: 2025-05-31, gbp_per_usd: "0.818000"}
+    - {period_end: 2025-06-30, gbp_per_usd: "0.824000"}
+    - {period_end: 2025-07-31, gbp_per_usd: "0.816000"}
+    - {period_end: 2025-08-31, gbp_per_usd: "0.803000"}
+    - {period_end: 2025-09-30, gbp_per_usd: "0.791000"}
+    - {period_end: 2025-10-31, gbp_per_usd: "0.779000"}
+    - {period_end: 2025-11-30, gbp_per_usd: "0.770000"}
+    - {period_end: 2025-12-31, gbp_per_usd: "0.783000"}
+
+schedule_construction:
+  note: >
+    ref.policy_adjustment is an input to the agreed metrics. This fictional
+    schedule was built by accepting 0.40 of Madeup North's proposed add-back
+    and 0.12 of Madeup West's booked add-back, rounded half away from zero
+    to the cent. The rejected amount is the remainder. The metric SQL reads
+    the stored amounts. It does not re-derive the rates.
+
+structural_columns:
+  - period_end
+  - MonthEnding
+  - gbp_per_usd
+  - entity_code
+
+entities:
+  madeup_north:
+    legal_name: Madeup North Logistics Ltd
+    alias: north
+    file_name: madeup_north.duckdb
+    country: United Kingdom
+    business: contract logistics
+    functional_currency: GBP
+    relation: north.ledger.monthly_pack
+    date_column: period_end
+    headline_view: north.ledger.v_management_headline
+    local_revenue: >
+      Management turnover is billed_turnover_gross. That is third-party
+      invoices plus intercompany invoices to Madeup West, gross of rebates,
+      with no deferral for work billed and not yet delivered.
+    local_ebitda: >
+      reported_ebitda equals billed turnover, minus rebate accruals, cash
+      operating costs excluding rent, property rent, and one-off costs.
+      Rent stays inside EBITDA because the pack is pre-IFRS 16. Proposed
+      management add-backs are not included. Deferred income is ignored.
+    local_revenue_formula: billed_turnover_gross = third_party_billed_gross + intercompany_billed_gross
+    local_ebitda_formula: >
+      reported_ebitda = billed_turnover_gross - rebate_accrual
+      - cash_opex_excl_rent - property_rent - one_off_costs
+
+  madeup_west:
+    legal_name: Madeup West Assemblies Inc
+    alias: west
+    file_name: madeup_west.duckdb
+    country: United States
+    business: contract electronics assembly
+    functional_currency: USD
+    relation: west.ops.MonthlyPnl
+    date_column: MonthEnding
+    headline_view: west.ops.v_BoardPack
+    local_revenue: >
+      The board-pack revenue column is GrossBillings, taken from the billing
+      system before rebates and before the recognition bridge.
+    local_ebitda: >
+      EbitdaAfterAddbacks equals recognised net sales, minus cash operating
+      cost, plus one-off charges and the full management add-back. Cash
+      operating cost already excludes lease depreciation and lease interest,
+      so the pack is post-IFRS 16. It includes intercompany purchases and
+      one-off charges, which the EBITDA formula adds back.
+    local_revenue_formula: >
+      RecognizedNetSales = GrossBillings - RebateContra
+      - BilledNotRecognized + UnbilledRecognised
+    local_ebitda_formula: >
+      EbitdaAfterAddbacks = RecognizedNetSales - CashOperatingCost
+      + OneOffCharges + MgmtAddbackBooked
+
+metrics:
+  net_revenue:
+    title: Net Revenue
+    description: >
+      Third-party revenue recognised in the month, net of rebates. Amounts
+      billed but not yet earned are excluded. Amounts released from deferred
+      income are included. Intercompany revenue is excluded.
+    unit: money
+    grain: fact
+    entities:
+      madeup_north:
+        expression: >
+          third_party_billed_gross - rebate_accrual - deferred_unearned
+          + prior_period_release
+        lineage:
+          - third_party_billed_gross
+          - rebate_accrual
+          - deferred_unearned
+          - prior_period_release
+      madeup_west:
+        expression: RecognizedNetSales
+        lineage:
+          - RecognizedNetSales
+
+  adjusted_ebitda:
+    title: Adjusted EBITDA
+    description: >
+      Fund Net Revenue, minus cash operating costs, after the fund's
+      adjustments. One-off costs are excluded. IFRS 16 lease cost is
+      excluded: cash rent is not deducted where the company still expenses
+      it, and a company that already reports post-IFRS 16 EBITDA is not
+      adjusted again. Only the add-back stored on the fund policy table is
+      included. Intercompany charges are removed from revenue and from cost.
+    unit: money
+    grain: fact
+    entities:
+      madeup_north:
+        expression: >
+          (third_party_billed_gross - rebate_accrual - deferred_unearned
+          + prior_period_release) - cash_opex_excl_rent
+          + adj.ic_approved_addback_functional
+        lineage:
+          - third_party_billed_gross
+          - rebate_accrual
+          - deferred_unearned
+          - prior_period_release
+          - cash_opex_excl_rent
+          - ic_approved_addback_functional
+      madeup_west:
+        expression: >
+          RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd
+          - OneOffCharges) + adj.ic_approved_addback_functional
+        lineage:
+          - RecognizedNetSales
+          - CashOperatingCost
+          - IntercompanyPurchasesUsd
+          - OneOffCharges
+          - ic_approved_addback_functional
+
+  ebitda_margin:
+    title: EBITDA margin
+    description: >
+      Adjusted EBITDA divided by Net Revenue, both summed over the window
+      after translation into the currency of the question.
+    derived: true
+    numerator: adjusted_ebitda
+    denominator: net_revenue
+    unit: ratio
+
+  ifrs16_lease_addback:
+    title: IFRS 16 lease add-back
+    description: >
+      Cash rent that fund Adjusted EBITDA does not deduct. Zero when the
+      company already keeps lease depreciation and lease interest below
+      EBITDA. Those below-EBITDA amounts are not added a second time.
+    unit: money
+    grain: fact
+    entities:
+      madeup_north:
+        expression: property_rent
+        lineage:
+          - property_rent
+      madeup_west:
+        expression: CAST(0 AS DECIMAL(18,2))
+        lineage: []
+
+  declined_management_addback:
+    title: Declined management add-back
+    description: >
+      The portion of management's add-back that the fund did not accept,
+      stored as rejected_addback_functional on the fund policy table, in the
+      company's functional currency.
+    unit: money
+    grain: policy
+    entities:
+      madeup_north:
+        expression: rejected_addback_functional
+        lineage:
+          - rejected_addback_functional
+      madeup_west:
+        expression: rejected_addback_functional
+        lineage:
+          - rejected_addback_functional
+
+  intercompany_revenue_eliminated:
+    title: Intercompany revenue eliminated
+    description: >
+      Intercompany revenue left out of consolidated Net Revenue. Madeup
+      North bills Madeup West for haulage. Madeup West records a purchase,
+      not revenue, so its eliminated revenue is zero. The matching cost is
+      removed inside Adjusted EBITDA rather than in this revenue figure.
+    unit: money
+    grain: fact
+    entities:
+      madeup_north:
+        expression: intercompany_billed_gross
+        lineage:
+          - intercompany_billed_gross
+      madeup_west:
+        expression: CAST(0 AS DECIMAL(18,2))
+        lineage: []

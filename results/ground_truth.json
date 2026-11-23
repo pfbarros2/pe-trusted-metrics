@@ -1,0 +1,439 @@
+[
+  {
+    "question_id": "Q01",
+    "question": "What was Madeup North Logistics Ltd's Net Revenue for FY2025, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "net_revenue"
+      ]
+    },
+    "status": "answered",
+    "value": "46971087.20",
+    "display": "GBP 46,971,087.20",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q02",
+    "question": "What was Madeup West Assemblies Inc's Net Revenue for FY2025, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "net_revenue"
+      ]
+    },
+    "status": "answered",
+    "value": "63172934.25",
+    "display": "GBP 63,172,934.25",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q03",
+    "question": "What was consolidated Net Revenue for FY2025, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "net_revenue"
+      ]
+    },
+    "status": "answered",
+    "value": "110144021.45",
+    "display": "GBP 110,144,021.45",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q04",
+    "question": "What was consolidated LTM Adjusted EBITDA at Dec 2025, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "adjusted_ebitda"
+      ]
+    },
+    "status": "answered",
+    "value": "18873128.33",
+    "display": "GBP 18,873,128.33",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q05",
+    "question": "What was consolidated LTM Adjusted EBITDA at Dec 2024, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "adjusted_ebitda"
+      ]
+    },
+    "status": "answered",
+    "value": "17726702.74",
+    "display": "GBP 17,726,702.74",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q06",
+    "question": "What was consolidated LTM Net Revenue at Sep 2025, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "net_revenue"
+      ]
+    },
+    "status": "answered",
+    "value": "108545786.36",
+    "display": "GBP 108,545,786.36",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q07",
+    "question": "What was the consolidated LTM Adjusted EBITDA margin at Dec 2025?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "ebitda_margin"
+      ],
+      "components": {
+        "numerator": "18873128.33",
+        "denominator": "110144021.45"
+      }
+    },
+    "status": "answered",
+    "value": "0.171350",
+    "display": "17.1350%",
+    "unit": "ratio",
+    "value_kind": "ratio"
+  },
+  {
+    "question_id": "Q08",
+    "question": "Which company had the higher LTM Adjusted EBITDA margin at Dec 2025?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "ebitda_margin"
+      ],
+      "components": {
+        "companies": {
+          "madeup_north": {
+            "ratio": "0.201783",
+            "numerator": "9477967.20",
+            "denominator": "46971087.20"
+          },
+          "madeup_west": {
+            "ratio": "0.148721",
+            "numerator": "9395161.13",
+            "denominator": "63172934.25"
+          }
+        }
+      }
+    },
+    "status": "answered",
+    "value": "Madeup North Logistics Ltd",
+    "display": "Madeup North Logistics Ltd",
+    "unit": "entity",
+    "value_kind": "entity"
+  },
+  {
+    "question_id": "Q09",
+    "question": "Which company had the higher Adjusted EBITDA margin growth from LTM Dec 2024 to LTM Dec 2025?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "ebitda_margin"
+      ],
+      "components": {
+        "companies": {
+          "madeup_north": {
+            "earlier": "0.200450",
+            "later": "0.201783",
+            "change": "0.001333"
+          },
+          "madeup_west": {
+            "earlier": "0.149231",
+            "later": "0.148721",
+            "change": "-0.000510"
+          }
+        }
+      }
+    },
+    "status": "answered",
+    "value": "Madeup North Logistics Ltd",
+    "display": "Madeup North Logistics Ltd",
+    "unit": "entity",
+    "value_kind": "entity"
+  },
+  {
+    "question_id": "Q10",
+    "question": "What was Madeup North Logistics Ltd's Adjusted EBITDA for FY2025, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "adjusted_ebitda"
+      ]
+    },
+    "status": "answered",
+    "value": "9477967.20",
+    "display": "GBP 9,477,967.20",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q11",
+    "question": "What was Madeup West Assemblies Inc's Adjusted EBITDA for FY2025, in USD?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "adjusted_ebitda"
+      ]
+    },
+    "status": "answered",
+    "value": "11787855.19",
+    "display": "USD 11,787,855.19",
+    "unit": "USD",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q12",
+    "question": "How much of Madeup West Assemblies Inc's FY2025 management add-backs did the fund decline, in USD?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "declined_management_addback"
+      ]
+    },
+    "status": "answered",
+    "value": "5068800.00",
+    "display": "USD 5,068,800.00",
+    "unit": "USD",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q13",
+    "question": "What was consolidated Net Revenue in Q4 2025, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "net_revenue"
+      ]
+    },
+    "status": "answered",
+    "value": "27334246.32",
+    "display": "GBP 27,334,246.32",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q14",
+    "question": "What was the fund's IFRS 16 lease add-back in consolidated FY2025 Adjusted EBITDA, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "ifrs16_lease_addback"
+      ]
+    },
+    "status": "answered",
+    "value": "4968000.00",
+    "display": "GBP 4,968,000.00",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q15",
+    "question": "What was intercompany revenue eliminated from consolidated FY2025 Net Revenue, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "intercompany_revenue_eliminated"
+      ]
+    },
+    "status": "answered",
+    "value": "1440000.00",
+    "display": "GBP 1,440,000.00",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q16",
+    "question": "Which month in calendar 2025 had the highest consolidated Adjusted EBITDA?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "adjusted_ebitda"
+      ],
+      "components": {
+        "amount": "GBP 1,703,911.05"
+      }
+    },
+    "status": "answered",
+    "value": "2025-06-30",
+    "display": "2025-06-30",
+    "unit": "month",
+    "value_kind": "month"
+  },
+  {
+    "question_id": "Q17",
+    "question": "What was consolidated Adjusted EBITDA for H1 2025, in GBP?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "adjusted_ebitda"
+      ]
+    },
+    "status": "answered",
+    "value": "9283252.18",
+    "display": "GBP 9,283,252.18",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q18",
+    "question": "What was the year-on-year growth in consolidated Net Revenue from FY2024 to FY2025?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "net_revenue"
+      ],
+      "components": {
+        "earlier": "103588973.80",
+        "later": "110144021.45"
+      }
+    },
+    "status": "answered",
+    "value": "0.063279",
+    "display": "6.3279%",
+    "unit": "ratio",
+    "value_kind": "ratio"
+  },
+  {
+    "question_id": "Q19",
+    "question": "What was Madeup West Assemblies Inc's LTM Net Revenue at Jun 2025, in USD?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "net_revenue"
+      ]
+    },
+    "status": "answered",
+    "value": "77061184.96",
+    "display": "USD 77,061,184.96",
+    "unit": "USD",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q20",
+    "question": "By how many percentage points did the consolidated LTM Adjusted EBITDA margin change from Dec 2024 to Dec 2025?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "definition_ids": [
+        "ebitda_margin"
+      ],
+      "components": {
+        "earlier_ratio": "0.171125",
+        "later_ratio": "0.171350"
+      }
+    },
+    "status": "answered",
+    "value": "0.0225",
+    "display": "0.0225 pp",
+    "unit": "percentage_points",
+    "value_kind": "percentage_points"
+  },
+  {
+    "question_id": "Q21",
+    "question": "What was consolidated return on advertising spend in FY2025?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "missing_concept": "advertising_spend",
+      "reason": "The agreed definitions do not cover this concept."
+    },
+    "status": "unanswerable",
+    "value": null,
+    "display": "unanswerable",
+    "unit": null,
+    "value_kind": "unanswerable"
+  },
+  {
+    "question_id": "Q22",
+    "question": "What was consolidated like-for-like organic revenue growth excluding acquisitions in FY2025?",
+    "sql": null,
+    "provenance": {
+      "method": "python_decimal_from_component_columns",
+      "language_model": false,
+      "definition_source": "definitions/fund_definitions.yml",
+      "missing_concept": "organic_revenue_excluding_acquisitions",
+      "reason": "The agreed definitions do not cover this concept."
+    },
+    "status": "unanswerable",
+    "value": null,
+    "display": "unanswerable",
+    "unit": null,
+    "value_kind": "unanswerable"
+  }
+]

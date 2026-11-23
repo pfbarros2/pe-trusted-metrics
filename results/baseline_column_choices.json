@@ -1,0 +1,156 @@
+{
+  "madeup_north": {
+    "net_revenue": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "billed_turnover_gross",
+      "ranking": [
+        {
+          "column": "billed_turnover_gross",
+          "score": 3,
+          "length": 21
+        },
+        {
+          "column": "third_party_billed_gross",
+          "score": 2,
+          "length": 24
+        },
+        {
+          "column": "intercompany_billed_gross",
+          "score": 2,
+          "length": 25
+        }
+      ],
+      "searched_relation": "north.ledger.monthly_pack"
+    },
+    "adjusted_ebitda": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "reported_ebitda",
+      "ranking": [
+        {
+          "column": "reported_ebitda",
+          "score": 2,
+          "length": 15
+        }
+      ],
+      "searched_relation": "north.ledger.monthly_pack"
+    },
+    "ifrs16_lease_addback": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "property_rent",
+      "ranking": [
+        {
+          "column": "property_rent",
+          "score": 1,
+          "length": 13
+        },
+        {
+          "column": "cash_opex_excl_rent",
+          "score": 1,
+          "length": 19
+        }
+      ],
+      "searched_relation": "north.ledger.monthly_pack"
+    },
+    "declined_management_addback": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "mgmt_addback_proposed",
+      "ranking": [
+        {
+          "column": "mgmt_addback_proposed",
+          "score": 1,
+          "length": 21
+        }
+      ],
+      "searched_relation": "north.ledger.monthly_pack"
+    },
+    "intercompany_revenue_eliminated": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "intercompany_billed_gross",
+      "ranking": [
+        {
+          "column": "intercompany_billed_gross",
+          "score": 2,
+          "length": 25
+        }
+      ],
+      "searched_relation": "north.ledger.monthly_pack"
+    }
+  },
+  "madeup_west": {
+    "net_revenue": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "GrossBillings",
+      "ranking": [
+        {
+          "column": "GrossBillings",
+          "score": 2,
+          "length": 13
+        },
+        {
+          "column": "RecognizedNetSales",
+          "score": 1,
+          "length": 18
+        },
+        {
+          "column": "BilledNotRecognized",
+          "score": 1,
+          "length": 19
+        }
+      ],
+      "searched_relation": "west.ops.MonthlyPnl"
+    },
+    "adjusted_ebitda": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "EbitdaAfterAddbacks",
+      "ranking": [
+        {
+          "column": "EbitdaAfterAddbacks",
+          "score": 2,
+          "length": 19
+        }
+      ],
+      "searched_relation": "west.ops.MonthlyPnl"
+    },
+    "ifrs16_lease_addback": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "LeaseInterest",
+      "ranking": [
+        {
+          "column": "LeaseInterest",
+          "score": 1,
+          "length": 13
+        },
+        {
+          "column": "LeaseDepreciation",
+          "score": 1,
+          "length": 17
+        }
+      ],
+      "searched_relation": "west.ops.MonthlyPnl"
+    },
+    "declined_management_addback": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "MgmtAddbackBooked",
+      "ranking": [
+        {
+          "column": "MgmtAddbackBooked",
+          "score": 1,
+          "length": 17
+        }
+      ],
+      "searched_relation": "west.ops.MonthlyPnl"
+    },
+    "intercompany_revenue_eliminated": {
+      "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+      "chosen_column": "IntercompanyPurchasesUsd",
+      "ranking": [
+        {
+          "column": "IntercompanyPurchasesUsd",
+          "score": 1,
+          "length": 24
+        }
+      ],
+      "searched_relation": "west.ops.MonthlyPnl"
+    }
+  }
+}

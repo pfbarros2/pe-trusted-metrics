@@ -1,0 +1,22 @@
+[project]
+name = "pe-trusted-metrics-ontology"
+version = "1.0.0"
+description = "Fictional private-equity demo of definition-grounded metric answers."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Pedro Fernandes Barros" }]
+dependencies = [
+  "duckdb==2.0.0",
+  "numpy==2.5.4",
+  "pandas==2.3.3",
+  "PyYAML==6.0.3",
+  "sqlglot==30.31.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

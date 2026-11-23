@@ -1,0 +1,6 @@
+duckdb==2.0.0
+numpy==2.5.4
+pandas==2.3.3
+PyYAML==6.0.3
+pytest==9.2.0
+sqlglot==30.31.0

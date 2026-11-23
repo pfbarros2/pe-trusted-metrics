@@ -1,0 +1,2615 @@
+{
+  "auto_ontology_commit": "fc43a82600e18b19d159c52023f54f5572f537ac",
+  "functions_run": [
+    "auto_ontology.connectors.duckdb.DuckDBDatabase",
+    "auto_ontology.catalog.extract.extract_tabular_db_data",
+    "auto_ontology.catalog.parsers.schemas_parser.parse_df",
+    "auto_ontology.catalog.sql_parse.parse_query_single"
+  ],
+  "substitution": "schemas_parser.get_table_ids and get_column_ids were replaced with pass-through functions because no Postgres catalog store was running; upstream returns the same frames when the store is empty.",
+  "lineage": {
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q01": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.v_management_headline",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.about.legal_name",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "v_management_headline.period_end = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q02": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q03": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "v_management_headline.period_end = fx_monthly.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q04": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q05": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q06": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "v_management_headline.period_end = fx_monthly.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q07": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.v_BoardPack"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.GrossBillings",
+        "ops.v_BoardPack.MonthEnding"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q08": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.monthly_pack",
+        "ops.About",
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ledger.about.legal_name",
+        "ledger.monthly_pack.billed_turnover_gross",
+        "ledger.monthly_pack.mgmt_addback_proposed",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.reported_ebitda",
+        "ops.About.LegalName",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q09": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.v_BoardPack"
+      ],
+      "source_columns": [
+        "ledger.about.legal_name",
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.LegalName",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.GrossBillings",
+        "ops.v_BoardPack.MonthEnding"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q10": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q11": {
+      "parsed": true,
+      "tables": [
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.About.FunctionalCurrency",
+        "ops.About.LegalName",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q12": {
+      "parsed": true,
+      "tables": [
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.period_end",
+        "ref.policy_adjustment.rejected_addback_functional"
+      ],
+      "join_conditions": [
+        "fx_monthly.period_end = policy_adjustment.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q13": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q14": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.LeaseDepreciation",
+        "ops.MonthlyPnl.LeaseInterest",
+        "ops.MonthlyPnl.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q15": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.monthly_pack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.monthly_pack.intercompany_billed_gross",
+        "ledger.monthly_pack.period_end",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q16": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.v_BoardPack"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.MonthEnding"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q17": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.v_BoardPack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q18": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q19": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|1|Q20": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.mgmt_addback_proposed",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.reported_ebitda",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = v_management_headline.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q01": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q02": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q03": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q04": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q05": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.v_BoardPack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.About.FunctionalCurrency",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q06": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q07": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.v_BoardPack"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.GrossBillings",
+        "ops.v_BoardPack.MonthEnding"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q08": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.v_BoardPack"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.LegalName",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.GrossBillings",
+        "ops.v_BoardPack.MonthEnding"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q09": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.v_BoardPack"
+      ],
+      "source_columns": [
+        "ledger.about.legal_name",
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.LegalName",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.GrossBillings",
+        "ops.v_BoardPack.MonthEnding"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q10": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.monthly_pack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.about.legal_name",
+        "ledger.monthly_pack.mgmt_addback_proposed",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.reported_ebitda",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q11": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q12": {
+      "parsed": true,
+      "tables": [
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.period_end",
+        "ref.policy_adjustment.rejected_addback_functional"
+      ],
+      "join_conditions": [
+        "fx_monthly.period_end = policy_adjustment.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q13": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q14": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.LeaseDepreciation",
+        "ops.MonthlyPnl.LeaseInterest",
+        "ops.MonthlyPnl.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q15": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.monthly_pack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.monthly_pack.intercompany_billed_gross",
+        "ledger.monthly_pack.period_end",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q16": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding"
+      ],
+      "join_conditions": [
+        "v_management_headline.period_end = monthlypnl.monthending"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q17": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.v_BoardPack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.About.FunctionalCurrency",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q18": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q19": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|2|Q20": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q01": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q02": {
+      "parsed": true,
+      "tables": [
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.About.FunctionalCurrency",
+        "ops.About.LegalName",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q03": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "v_management_headline.period_end = fx_monthly.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q04": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.v_BoardPack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "v_boardpack.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q05": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.v_BoardPack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.About.FunctionalCurrency",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "v_boardpack.monthending = fx_monthly.period_end",
+        "v_management_headline.period_end = fx_monthly.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q06": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q07": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.about.legal_name",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "about.legal_name = entity.legal_name",
+        "entity.entity_code = policy_adjustment.entity_code"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q08": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.monthly_pack",
+        "ops.About",
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ledger.about.legal_name",
+        "ledger.monthly_pack.billed_turnover_gross",
+        "ledger.monthly_pack.mgmt_addback_proposed",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.reported_ebitda",
+        "ops.About.LegalName",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q09": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.v_BoardPack"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.About.LegalName",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.GrossBillings",
+        "ops.v_BoardPack.MonthEnding"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q10": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.mgmt_addback_proposed",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.reported_ebitda"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q11": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q12": {
+      "parsed": true,
+      "tables": [
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.period_end",
+        "ref.policy_adjustment.rejected_addback_functional"
+      ],
+      "join_conditions": [
+        "fx_monthly.period_end = policy_adjustment.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q13": {
+      "parsed": true,
+      "tables": [
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q14": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.LeaseDepreciation",
+        "ops.MonthlyPnl.LeaseInterest",
+        "ops.MonthlyPnl.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q15": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.intercompany_billed_gross",
+        "ledger.monthly_pack.period_end",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q16": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.mgmt_addback_proposed",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.reported_ebitda",
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.EbitdaAfterAddbacks",
+        "ops.MonthlyPnl.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q17": {
+      "parsed": true,
+      "tables": [
+        "ledger.about",
+        "ledger.v_management_headline",
+        "ops.About",
+        "ops.v_BoardPack",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.about.functional_currency",
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ops.About.FunctionalCurrency",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.MonthEnding",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q18": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q19": {
+      "parsed": true,
+      "tables": [
+        "ops.About",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.About.FunctionalCurrency",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_baseline|3|Q20": {
+      "parsed": true,
+      "tables": [
+        "ledger.v_management_headline",
+        "ops.v_BoardPack"
+      ],
+      "source_columns": [
+        "ledger.v_management_headline.ebitda",
+        "ledger.v_management_headline.period_end",
+        "ledger.v_management_headline.turnover",
+        "ops.v_BoardPack.EbitdaAfterAddbacks",
+        "ops.v_BoardPack.GrossBillings",
+        "ops.v_BoardPack.MonthEnding"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q01": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q02": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q03": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q04": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 5
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q05": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = policy_adjustment.period_end",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q06": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q07": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = policy_adjustment.period_end",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q08": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q09": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q10": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ref.entity",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthly_pack.period_end = policy_adjustment.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q11": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q12": {
+      "parsed": true,
+      "tables": [
+        "ref.entity",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.period_end",
+        "ref.policy_adjustment.rejected_addback_functional"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q13": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q14": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.property_rent"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q15": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.intercompany_billed_gross",
+        "ledger.monthly_pack.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q16": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q17": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q18": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q19": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q20": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|1|Q22": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q01": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q02": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q03": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q04": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = policy_adjustment.period_end",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q05": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q06": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q07": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q08": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q09": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthly_pack.period_end = policy_adjustment.period_end",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q10": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ref.entity",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthly_pack.period_end = policy_adjustment.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q11": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q12": {
+      "parsed": true,
+      "tables": [
+        "ref.entity",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.period_end",
+        "ref.policy_adjustment.rejected_addback_functional"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q13": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q14": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.property_rent"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q15": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.intercompany_billed_gross",
+        "ledger.monthly_pack.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q16": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q17": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthly_pack.period_end = policy_adjustment.period_end",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q18": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q19": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q20": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|2|Q22": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q01": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q02": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q03": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q04": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q05": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q06": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q07": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q08": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q09": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = policy_adjustment.period_end",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q10": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ref.entity",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthly_pack.period_end = policy_adjustment.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q11": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 2
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q12": {
+      "parsed": true,
+      "tables": [
+        "ref.entity",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.period_end",
+        "ref.policy_adjustment.rejected_addback_functional"
+      ],
+      "join_conditions": [
+        "entity.entity_code = policy_adjustment.entity_code"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q13": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q14": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.property_rent"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q15": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.intercompany_billed_gross",
+        "ledger.monthly_pack.period_end"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q16": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = fx_monthly.period_end",
+        "monthly_pack.period_end = monthlypnl.monthending",
+        "monthly_pack.period_end = policy_adjustment.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 4
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q17": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl",
+        "ref.entity",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.entity.entity_code",
+        "ref.entity.legal_name",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q18": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q19": {
+      "parsed": true,
+      "tables": [
+        "ops.MonthlyPnl"
+      ],
+      "source_columns": [
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales"
+      ],
+      "join_conditions": [],
+      "join_count": 0
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q20": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly",
+        "ref.policy_adjustment"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.cash_opex_excl_rent",
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.CashOperatingCost",
+        "ops.MonthlyPnl.IntercompanyPurchasesUsd",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.OneOffCharges",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end",
+        "ref.policy_adjustment.entity_code",
+        "ref.policy_adjustment.ic_approved_addback_functional",
+        "ref.policy_adjustment.period_end"
+      ],
+      "join_conditions": [
+        "monthly_pack.period_end = policy_adjustment.period_end",
+        "monthlypnl.monthending = fx_monthly.period_end",
+        "monthlypnl.monthending = policy_adjustment.period_end"
+      ],
+      "join_count": 3
+    },
+    "nvidia/nemotron-3-ultra-550b-a55b|llm_grounded|3|Q22": {
+      "parsed": true,
+      "tables": [
+        "ledger.monthly_pack",
+        "ops.MonthlyPnl",
+        "ref.fx_monthly"
+      ],
+      "source_columns": [
+        "ledger.monthly_pack.deferred_unearned",
+        "ledger.monthly_pack.period_end",
+        "ledger.monthly_pack.prior_period_release",
+        "ledger.monthly_pack.rebate_accrual",
+        "ledger.monthly_pack.third_party_billed_gross",
+        "ops.MonthlyPnl.MonthEnding",
+        "ops.MonthlyPnl.RecognizedNetSales",
+        "ref.fx_monthly.gbp_per_usd",
+        "ref.fx_monthly.period_end"
+      ],
+      "join_conditions": [
+        "monthlypnl.monthending = fx_monthly.period_end"
+      ],
+      "join_count": 1
+    }
+  },
+  "queries_sent_to_parser": 123,
+  "queries_parsed": 123
+}

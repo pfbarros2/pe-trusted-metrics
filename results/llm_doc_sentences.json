@@ -1,0 +1,14 @@
+{
+  "sentences": [
+    "Nemotron 3 Ultra (nvidia/nemotron-3-ultra-550b-a55b), schema-only baseline: 21 of 66 answers correct across 3 repeats (per repeat: 7, 7, 7 of 22; mean 7.00).",
+    "Nemotron 3 Ultra (nvidia/nemotron-3-ultra-550b-a55b), definitions-grounded: 60 of 66 answers correct across 3 repeats (per repeat: 20, 20, 20 of 22; mean 20.00).",
+    "Nemotron 3 Ultra: if the repo SQL guard had blocked every query it rejected, the baseline would have 10 of 66 correct and the grounded condition 52 of 66.",
+    "Nemotron 3 Ultra, baseline: 60 queries ran. The repo SQL guard rejected 43 wrong and 11 correct answers, and passed 2 wrong answers.",
+    "Nemotron 3 Ultra, baseline: Auto Ontology's catalog parser resolved tables and source columns for 60 of 60 executed queries; 52 of them read a column outside the fund's agreed lineage.",
+    "Nemotron 3 Ultra, baseline: 3 of 66 answers needed the one allowed follow-up turn.",
+    "Nemotron 3 Ultra, grounded: 63 queries ran. The repo SQL guard rejected 0 wrong and 8 correct answers, and passed 3 wrong answers.",
+    "Nemotron 3 Ultra, grounded: Auto Ontology's catalog parser resolved tables and source columns for 63 of 63 executed queries; 0 of them read a column outside the fund's agreed lineage.",
+    "Nemotron 3 Ultra, grounded: 2 of 66 answers needed the one allowed follow-up turn.",
+    "Nemotron 3 Ultra: 137 model calls used 344536 prompt tokens and 278368 completion tokens."
+  ]
+}

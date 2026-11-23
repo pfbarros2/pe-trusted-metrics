@@ -1,0 +1,1922 @@
+[
+  {
+    "question_id": "Q01",
+    "question": "What was Madeup North Logistics Ltd's Net Revenue for FY2025, in GBP?",
+    "sql": "SELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "billed_turnover_gross",
+          "ranking": [
+            {
+              "column": "billed_turnover_gross",
+              "score": 3,
+              "length": 21
+            },
+            {
+              "column": "third_party_billed_gross",
+              "score": 2,
+              "length": 24
+            },
+            {
+              "column": "intercompany_billed_gross",
+              "score": 2,
+              "length": 25
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "billed_turnover_gross",
+          "period_end"
+        ],
+        "rejected_columns": [
+          "billed_turnover_gross"
+        ],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": "columns outside the agreed lineage: billed_turnover_gross"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "53651200.00",
+    "display": "GBP 53,651,200.00",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q02",
+    "question": "What was Madeup West Assemblies Inc's Net Revenue for FY2025, in GBP?",
+    "sql": "SELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_west": "spot"
+      },
+      "traces": {
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "GrossBillings",
+          "ranking": [
+            {
+              "column": "GrossBillings",
+              "score": 2,
+              "length": 13
+            },
+            {
+              "column": "RecognizedNetSales",
+              "score": 1,
+              "length": 18
+            },
+            {
+              "column": "BilledNotRecognized",
+              "score": 1,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "GrossBillings",
+          "MonthEnding",
+          "gbp_per_usd",
+          "period_end"
+        ],
+        "rejected_columns": [
+          "GrossBillings"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: GrossBillings; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "69498328.32",
+    "display": "GBP 69,498,328.32",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q03",
+    "question": "What was consolidated Net Revenue for FY2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "spot"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "billed_turnover_gross",
+          "ranking": [
+            {
+              "column": "billed_turnover_gross",
+              "score": 3,
+              "length": 21
+            },
+            {
+              "column": "third_party_billed_gross",
+              "score": 2,
+              "length": 24
+            },
+            {
+              "column": "intercompany_billed_gross",
+              "score": 2,
+              "length": 25
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        },
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "GrossBillings",
+          "ranking": [
+            {
+              "column": "GrossBillings",
+              "score": 2,
+              "length": 13
+            },
+            {
+              "column": "RecognizedNetSales",
+              "score": 1,
+              "length": 18
+            },
+            {
+              "column": "BilledNotRecognized",
+              "score": 1,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "GrossBillings",
+          "MonthEnding",
+          "billed_turnover_gross",
+          "gbp_per_usd",
+          "period_end",
+          "value"
+        ],
+        "rejected_columns": [
+          "GrossBillings",
+          "billed_turnover_gross"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: GrossBillings, billed_turnover_gross; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "123149528.32",
+    "display": "GBP 123,149,528.32",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q04",
+    "question": "What was consolidated LTM Adjusted EBITDA at Dec 2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((EbitdaAfterAddbacks)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "spot"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "reported_ebitda",
+          "ranking": [
+            {
+              "column": "reported_ebitda",
+              "score": 2,
+              "length": 15
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        },
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "EbitdaAfterAddbacks",
+          "ranking": [
+            {
+              "column": "EbitdaAfterAddbacks",
+              "score": 2,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "EbitdaAfterAddbacks",
+          "MonthEnding",
+          "gbp_per_usd",
+          "period_end",
+          "reported_ebitda",
+          "value"
+        ],
+        "rejected_columns": [
+          "EbitdaAfterAddbacks",
+          "reported_ebitda"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: EbitdaAfterAddbacks, reported_ebitda; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "17316743.93",
+    "display": "GBP 17,316,743.93",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q05",
+    "question": "What was consolidated LTM Adjusted EBITDA at Dec 2024, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((EbitdaAfterAddbacks)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2024-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "spot"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "reported_ebitda",
+          "ranking": [
+            {
+              "column": "reported_ebitda",
+              "score": 2,
+              "length": 15
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        },
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "EbitdaAfterAddbacks",
+          "ranking": [
+            {
+              "column": "EbitdaAfterAddbacks",
+              "score": 2,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "EbitdaAfterAddbacks",
+          "MonthEnding",
+          "gbp_per_usd",
+          "period_end",
+          "reported_ebitda",
+          "value"
+        ],
+        "rejected_columns": [
+          "EbitdaAfterAddbacks",
+          "reported_ebitda"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: EbitdaAfterAddbacks, reported_ebitda; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "16798846.81",
+    "display": "GBP 16,798,846.81",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q06",
+    "question": "What was consolidated LTM Net Revenue at Sep 2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-10-31' AND t.period_end <= DATE '2025-09-30'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-09-30') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2024-10-31' AND t.MonthEnding <= DATE '2025-09-30'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "spot"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "billed_turnover_gross",
+          "ranking": [
+            {
+              "column": "billed_turnover_gross",
+              "score": 3,
+              "length": 21
+            },
+            {
+              "column": "third_party_billed_gross",
+              "score": 2,
+              "length": 24
+            },
+            {
+              "column": "intercompany_billed_gross",
+              "score": 2,
+              "length": 25
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        },
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "GrossBillings",
+          "ranking": [
+            {
+              "column": "GrossBillings",
+              "score": 2,
+              "length": 13
+            },
+            {
+              "column": "RecognizedNetSales",
+              "score": 1,
+              "length": 18
+            },
+            {
+              "column": "BilledNotRecognized",
+              "score": 1,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "GrossBillings",
+          "MonthEnding",
+          "billed_turnover_gross",
+          "gbp_per_usd",
+          "period_end",
+          "value"
+        ],
+        "rejected_columns": [
+          "GrossBillings",
+          "billed_turnover_gross"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: GrossBillings, billed_turnover_gross; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "122193925.76",
+    "display": "GBP 122,193,925.76",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q07",
+    "question": "What was the consolidated LTM Adjusted EBITDA margin at Dec 2025?",
+    "sql": "SELECT\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((EbitdaAfterAddbacks)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS denominator_q) AS denominator",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "adjusted_ebitda": {
+          "madeup_north": "none",
+          "madeup_west": "spot"
+        },
+        "net_revenue": {
+          "madeup_north": "none",
+          "madeup_west": "spot"
+        }
+      },
+      "traces": {
+        "adjusted_ebitda": {
+          "madeup_north": {
+            "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+            "chosen_column": "reported_ebitda",
+            "ranking": [
+              {
+                "column": "reported_ebitda",
+                "score": 2,
+                "length": 15
+              }
+            ],
+            "searched_relation": "north.ledger.monthly_pack"
+          },
+          "madeup_west": {
+            "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+            "chosen_column": "EbitdaAfterAddbacks",
+            "ranking": [
+              {
+                "column": "EbitdaAfterAddbacks",
+                "score": 2,
+                "length": 19
+              }
+            ],
+            "searched_relation": "west.ops.MonthlyPnl"
+          }
+        },
+        "net_revenue": {
+          "madeup_north": {
+            "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+            "chosen_column": "billed_turnover_gross",
+            "ranking": [
+              {
+                "column": "billed_turnover_gross",
+                "score": 3,
+                "length": 21
+              },
+              {
+                "column": "third_party_billed_gross",
+                "score": 2,
+                "length": 24
+              },
+              {
+                "column": "intercompany_billed_gross",
+                "score": 2,
+                "length": 25
+              }
+            ],
+            "searched_relation": "north.ledger.monthly_pack"
+          },
+          "madeup_west": {
+            "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+            "chosen_column": "GrossBillings",
+            "ranking": [
+              {
+                "column": "GrossBillings",
+                "score": 2,
+                "length": 13
+              },
+              {
+                "column": "RecognizedNetSales",
+                "score": 1,
+                "length": 18
+              },
+              {
+                "column": "BilledNotRecognized",
+                "score": 1,
+                "length": 19
+              }
+            ],
+            "searched_relation": "west.ops.MonthlyPnl"
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "EbitdaAfterAddbacks",
+          "GrossBillings",
+          "MonthEnding",
+          "billed_turnover_gross",
+          "gbp_per_usd",
+          "period_end",
+          "reported_ebitda",
+          "value"
+        ],
+        "rejected_columns": [
+          "EbitdaAfterAddbacks",
+          "GrossBillings",
+          "billed_turnover_gross",
+          "reported_ebitda"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: EbitdaAfterAddbacks, GrossBillings, billed_turnover_gross, reported_ebitda; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false,
+      "components": {
+        "numerator": "17316743.93",
+        "denominator": "123149528.32"
+      }
+    },
+    "status": "answered",
+    "value": "0.140616",
+    "display": "14.0616%",
+    "unit": "ratio",
+    "value_kind": "ratio"
+  },
+  {
+    "question_id": "Q08",
+    "question": "Which company had the higher LTM Adjusted EBITDA margin at Dec 2025?",
+    "sql": "SELECT\n  'madeup_north' AS entity_code,\n  (SELECT value FROM (\nSELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n  ) AS denominator_q) AS denominator\nUNION ALL\nSELECT\n  'madeup_west' AS entity_code,\n  (SELECT value FROM (\nSELECT CAST(SUM((EbitdaAfterAddbacks)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n  ) AS denominator_q) AS denominator",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": {
+          "adjusted_ebitda": {
+            "madeup_north": "none"
+          },
+          "net_revenue": {
+            "madeup_north": "none"
+          }
+        },
+        "madeup_west": {
+          "adjusted_ebitda": {
+            "madeup_west": "spot"
+          },
+          "net_revenue": {
+            "madeup_west": "spot"
+          }
+        }
+      },
+      "traces": {
+        "madeup_north": {
+          "adjusted_ebitda": {
+            "madeup_north": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "reported_ebitda",
+              "ranking": [
+                {
+                  "column": "reported_ebitda",
+                  "score": 2,
+                  "length": 15
+                }
+              ],
+              "searched_relation": "north.ledger.monthly_pack"
+            }
+          },
+          "net_revenue": {
+            "madeup_north": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "billed_turnover_gross",
+              "ranking": [
+                {
+                  "column": "billed_turnover_gross",
+                  "score": 3,
+                  "length": 21
+                },
+                {
+                  "column": "third_party_billed_gross",
+                  "score": 2,
+                  "length": 24
+                },
+                {
+                  "column": "intercompany_billed_gross",
+                  "score": 2,
+                  "length": 25
+                }
+              ],
+              "searched_relation": "north.ledger.monthly_pack"
+            }
+          }
+        },
+        "madeup_west": {
+          "adjusted_ebitda": {
+            "madeup_west": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "EbitdaAfterAddbacks",
+              "ranking": [
+                {
+                  "column": "EbitdaAfterAddbacks",
+                  "score": 2,
+                  "length": 19
+                }
+              ],
+              "searched_relation": "west.ops.MonthlyPnl"
+            }
+          },
+          "net_revenue": {
+            "madeup_west": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "GrossBillings",
+              "ranking": [
+                {
+                  "column": "GrossBillings",
+                  "score": 2,
+                  "length": 13
+                },
+                {
+                  "column": "RecognizedNetSales",
+                  "score": 1,
+                  "length": 18
+                },
+                {
+                  "column": "BilledNotRecognized",
+                  "score": 1,
+                  "length": 19
+                }
+              ],
+              "searched_relation": "west.ops.MonthlyPnl"
+            }
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "EbitdaAfterAddbacks",
+          "GrossBillings",
+          "MonthEnding",
+          "billed_turnover_gross",
+          "gbp_per_usd",
+          "period_end",
+          "reported_ebitda",
+          "value"
+        ],
+        "rejected_columns": [
+          "EbitdaAfterAddbacks",
+          "GrossBillings",
+          "billed_turnover_gross",
+          "reported_ebitda"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: EbitdaAfterAddbacks, GrossBillings, billed_turnover_gross, reported_ebitda; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false,
+      "components": {
+        "companies": {
+          "madeup_north": {
+            "ratio": "0.103133",
+            "numerator": "5533184.00",
+            "denominator": "53651200.00"
+          },
+          "madeup_west": {
+            "ratio": "0.169552",
+            "numerator": "11783559.93",
+            "denominator": "69498328.32"
+          }
+        }
+      }
+    },
+    "status": "answered",
+    "value": "Madeup West Assemblies Inc",
+    "display": "Madeup West Assemblies Inc",
+    "unit": "entity",
+    "value_kind": "entity"
+  },
+  {
+    "question_id": "Q09",
+    "question": "Which company had the higher Adjusted EBITDA margin growth from LTM Dec 2024 to LTM Dec 2025?",
+    "sql": "SELECT earlier.entity_code AS entity_code,\n       earlier.numerator AS earlier_numerator,\n       earlier.denominator AS earlier_denominator,\n       later.numerator AS later_numerator,\n       later.denominator AS later_denominator\nFROM (\nSELECT\n  'madeup_north' AS entity_code,\n  (SELECT value FROM (\nSELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n  ) AS denominator_q) AS denominator\nUNION ALL\nSELECT\n  'madeup_west' AS entity_code,\n  (SELECT value FROM (\nSELECT CAST(SUM((EbitdaAfterAddbacks)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2024-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2024-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n  ) AS denominator_q) AS denominator\n) AS earlier\nINNER JOIN (\nSELECT\n  'madeup_north' AS entity_code,\n  (SELECT value FROM (\nSELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n  ) AS denominator_q) AS denominator\nUNION ALL\nSELECT\n  'madeup_west' AS entity_code,\n  (SELECT value FROM (\nSELECT CAST(SUM((EbitdaAfterAddbacks)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n  ) AS denominator_q) AS denominator\n) AS later ON earlier.entity_code = later.entity_code",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "earlier": {
+          "madeup_north": {
+            "adjusted_ebitda": {
+              "madeup_north": "none"
+            },
+            "net_revenue": {
+              "madeup_north": "none"
+            }
+          },
+          "madeup_west": {
+            "adjusted_ebitda": {
+              "madeup_west": "spot"
+            },
+            "net_revenue": {
+              "madeup_west": "spot"
+            }
+          }
+        },
+        "later": {
+          "madeup_north": {
+            "adjusted_ebitda": {
+              "madeup_north": "none"
+            },
+            "net_revenue": {
+              "madeup_north": "none"
+            }
+          },
+          "madeup_west": {
+            "adjusted_ebitda": {
+              "madeup_west": "spot"
+            },
+            "net_revenue": {
+              "madeup_west": "spot"
+            }
+          }
+        }
+      },
+      "traces": {
+        "earlier": {
+          "madeup_north": {
+            "adjusted_ebitda": {
+              "madeup_north": {
+                "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+                "chosen_column": "reported_ebitda",
+                "ranking": [
+                  {
+                    "column": "reported_ebitda",
+                    "score": 2,
+                    "length": 15
+                  }
+                ],
+                "searched_relation": "north.ledger.monthly_pack"
+              }
+            },
+            "net_revenue": {
+              "madeup_north": {
+                "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+                "chosen_column": "billed_turnover_gross",
+                "ranking": [
+                  {
+                    "column": "billed_turnover_gross",
+                    "score": 3,
+                    "length": 21
+                  },
+                  {
+                    "column": "third_party_billed_gross",
+                    "score": 2,
+                    "length": 24
+                  },
+                  {
+                    "column": "intercompany_billed_gross",
+                    "score": 2,
+                    "length": 25
+                  }
+                ],
+                "searched_relation": "north.ledger.monthly_pack"
+              }
+            }
+          },
+          "madeup_west": {
+            "adjusted_ebitda": {
+              "madeup_west": {
+                "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+                "chosen_column": "EbitdaAfterAddbacks",
+                "ranking": [
+                  {
+                    "column": "EbitdaAfterAddbacks",
+                    "score": 2,
+                    "length": 19
+                  }
+                ],
+                "searched_relation": "west.ops.MonthlyPnl"
+              }
+            },
+            "net_revenue": {
+              "madeup_west": {
+                "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+                "chosen_column": "GrossBillings",
+                "ranking": [
+                  {
+                    "column": "GrossBillings",
+                    "score": 2,
+                    "length": 13
+                  },
+                  {
+                    "column": "RecognizedNetSales",
+                    "score": 1,
+                    "length": 18
+                  },
+                  {
+                    "column": "BilledNotRecognized",
+                    "score": 1,
+                    "length": 19
+                  }
+                ],
+                "searched_relation": "west.ops.MonthlyPnl"
+              }
+            }
+          }
+        },
+        "later": {
+          "madeup_north": {
+            "adjusted_ebitda": {
+              "madeup_north": {
+                "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+                "chosen_column": "reported_ebitda",
+                "ranking": [
+                  {
+                    "column": "reported_ebitda",
+                    "score": 2,
+                    "length": 15
+                  }
+                ],
+                "searched_relation": "north.ledger.monthly_pack"
+              }
+            },
+            "net_revenue": {
+              "madeup_north": {
+                "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+                "chosen_column": "billed_turnover_gross",
+                "ranking": [
+                  {
+                    "column": "billed_turnover_gross",
+                    "score": 3,
+                    "length": 21
+                  },
+                  {
+                    "column": "third_party_billed_gross",
+                    "score": 2,
+                    "length": 24
+                  },
+                  {
+                    "column": "intercompany_billed_gross",
+                    "score": 2,
+                    "length": 25
+                  }
+                ],
+                "searched_relation": "north.ledger.monthly_pack"
+              }
+            }
+          },
+          "madeup_west": {
+            "adjusted_ebitda": {
+              "madeup_west": {
+                "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+                "chosen_column": "EbitdaAfterAddbacks",
+                "ranking": [
+                  {
+                    "column": "EbitdaAfterAddbacks",
+                    "score": 2,
+                    "length": 19
+                  }
+                ],
+                "searched_relation": "west.ops.MonthlyPnl"
+              }
+            },
+            "net_revenue": {
+              "madeup_west": {
+                "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+                "chosen_column": "GrossBillings",
+                "ranking": [
+                  {
+                    "column": "GrossBillings",
+                    "score": 2,
+                    "length": 13
+                  },
+                  {
+                    "column": "RecognizedNetSales",
+                    "score": 1,
+                    "length": 18
+                  },
+                  {
+                    "column": "BilledNotRecognized",
+                    "score": 1,
+                    "length": 19
+                  }
+                ],
+                "searched_relation": "west.ops.MonthlyPnl"
+              }
+            }
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "EbitdaAfterAddbacks",
+          "GrossBillings",
+          "MonthEnding",
+          "billed_turnover_gross",
+          "denominator",
+          "entity_code",
+          "gbp_per_usd",
+          "numerator",
+          "period_end",
+          "reported_ebitda",
+          "value"
+        ],
+        "rejected_columns": [
+          "EbitdaAfterAddbacks",
+          "GrossBillings",
+          "billed_turnover_gross",
+          "reported_ebitda"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: EbitdaAfterAddbacks, GrossBillings, billed_turnover_gross, reported_ebitda; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false,
+      "components": {
+        "companies": {
+          "madeup_north": {
+            "earlier": "0.111811",
+            "later": "0.103133",
+            "change": "-0.008678"
+          },
+          "madeup_west": {
+            "earlier": "0.172013",
+            "later": "0.169552",
+            "change": "-0.002461"
+          }
+        }
+      }
+    },
+    "status": "answered",
+    "value": "Madeup West Assemblies Inc",
+    "display": "Madeup West Assemblies Inc",
+    "unit": "entity",
+    "value_kind": "entity"
+  },
+  {
+    "question_id": "Q10",
+    "question": "What was Madeup North Logistics Ltd's Adjusted EBITDA for FY2025, in GBP?",
+    "sql": "SELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "reported_ebitda",
+          "ranking": [
+            {
+              "column": "reported_ebitda",
+              "score": 2,
+              "length": 15
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "period_end",
+          "reported_ebitda"
+        ],
+        "rejected_columns": [
+          "reported_ebitda"
+        ],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": "columns outside the agreed lineage: reported_ebitda"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "5533184.00",
+    "display": "GBP 5,533,184.00",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q11",
+    "question": "What was Madeup West Assemblies Inc's Adjusted EBITDA for FY2025, in USD?",
+    "sql": "SELECT SUM((EbitdaAfterAddbacks)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_west": "none"
+      },
+      "traces": {
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "EbitdaAfterAddbacks",
+          "ranking": [
+            {
+              "column": "EbitdaAfterAddbacks",
+              "score": 2,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "EbitdaAfterAddbacks",
+          "MonthEnding"
+        ],
+        "rejected_columns": [
+          "EbitdaAfterAddbacks"
+        ],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": "columns outside the agreed lineage: EbitdaAfterAddbacks"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "15049246.40",
+    "display": "USD 15,049,246.40",
+    "unit": "USD",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q12",
+    "question": "How much of Madeup West Assemblies Inc's FY2025 management add-backs did the fund decline, in USD?",
+    "sql": "SELECT SUM((MgmtAddbackBooked)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_west": "none"
+      },
+      "traces": {
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "MgmtAddbackBooked",
+          "ranking": [
+            {
+              "column": "MgmtAddbackBooked",
+              "score": 1,
+              "length": 17
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "MgmtAddbackBooked",
+          "MonthEnding"
+        ],
+        "rejected_columns": [
+          "MgmtAddbackBooked"
+        ],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": "columns outside the agreed lineage: MgmtAddbackBooked"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "5760000.00",
+    "display": "USD 5,760,000.00",
+    "unit": "USD",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q13",
+    "question": "What was consolidated Net Revenue in Q4 2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-10-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-10-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "spot"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "billed_turnover_gross",
+          "ranking": [
+            {
+              "column": "billed_turnover_gross",
+              "score": 3,
+              "length": 21
+            },
+            {
+              "column": "third_party_billed_gross",
+              "score": 2,
+              "length": 24
+            },
+            {
+              "column": "intercompany_billed_gross",
+              "score": 2,
+              "length": 25
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        },
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "GrossBillings",
+          "ranking": [
+            {
+              "column": "GrossBillings",
+              "score": 2,
+              "length": 13
+            },
+            {
+              "column": "RecognizedNetSales",
+              "score": 1,
+              "length": 18
+            },
+            {
+              "column": "BilledNotRecognized",
+              "score": 1,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "GrossBillings",
+          "MonthEnding",
+          "billed_turnover_gross",
+          "gbp_per_usd",
+          "period_end",
+          "value"
+        ],
+        "rejected_columns": [
+          "GrossBillings",
+          "billed_turnover_gross"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: GrossBillings, billed_turnover_gross; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "30991914.86",
+    "display": "GBP 30,991,914.86",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q14",
+    "question": "What was the fund's IFRS 16 lease add-back in consolidated FY2025 Adjusted EBITDA, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((property_rent)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((LeaseInterest)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "spot"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "property_rent",
+          "ranking": [
+            {
+              "column": "property_rent",
+              "score": 1,
+              "length": 13
+            },
+            {
+              "column": "cash_opex_excl_rent",
+              "score": 1,
+              "length": 19
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        },
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "LeaseInterest",
+          "ranking": [
+            {
+              "column": "LeaseInterest",
+              "score": 1,
+              "length": 13
+            },
+            {
+              "column": "LeaseDepreciation",
+              "score": 1,
+              "length": 17
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "LeaseInterest",
+          "MonthEnding",
+          "gbp_per_usd",
+          "period_end",
+          "property_rent",
+          "value"
+        ],
+        "rejected_columns": [
+          "LeaseInterest"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: LeaseInterest; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "5362632.00",
+    "display": "GBP 5,362,632.00",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q15",
+    "question": "What was intercompany revenue eliminated from consolidated FY2025 Net Revenue, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((intercompany_billed_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((IntercompanyPurchasesUsd)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "spot"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "intercompany_billed_gross",
+          "ranking": [
+            {
+              "column": "intercompany_billed_gross",
+              "score": 2,
+              "length": 25
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        },
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "IntercompanyPurchasesUsd",
+          "ranking": [
+            {
+              "column": "IntercompanyPurchasesUsd",
+              "score": 1,
+              "length": 24
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "gbp_per_usd",
+          "intercompany_billed_gross",
+          "period_end",
+          "value"
+        ],
+        "rejected_columns": [
+          "IntercompanyPurchasesUsd"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: IntercompanyPurchasesUsd; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "2855201.08",
+    "display": "GBP 2,855,201.08",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q16",
+    "question": "Which month in calendar 2025 had the highest consolidated Adjusted EBITDA?",
+    "sql": "SELECT period_end, SUM(value) AS value\nFROM (\nSELECT t.period_end AS period_end, (reported_ebitda) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\nUNION ALL\nSELECT t.MonthEnding AS period_end, CAST((EbitdaAfterAddbacks) * fx.gbp_per_usd AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS monthly\nGROUP BY period_end\nORDER BY value DESC, period_end ASC\nLIMIT 1",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "reported_ebitda",
+          "ranking": [
+            {
+              "column": "reported_ebitda",
+              "score": 2,
+              "length": 15
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        },
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "EbitdaAfterAddbacks",
+          "ranking": [
+            {
+              "column": "EbitdaAfterAddbacks",
+              "score": 2,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "EbitdaAfterAddbacks",
+          "MonthEnding",
+          "gbp_per_usd",
+          "period_end",
+          "reported_ebitda",
+          "value"
+        ],
+        "rejected_columns": [
+          "EbitdaAfterAddbacks",
+          "reported_ebitda"
+        ],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: EbitdaAfterAddbacks, reported_ebitda"
+      },
+      "guard_blocks_execution": false,
+      "components": {
+        "amount": "GBP 1,728,406.88"
+      }
+    },
+    "status": "answered",
+    "value": "2025-06-30",
+    "display": "2025-06-30",
+    "unit": "month",
+    "value_kind": "month"
+  },
+  {
+    "question_id": "Q17",
+    "question": "What was consolidated Adjusted EBITDA for H1 2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-06-30'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((EbitdaAfterAddbacks)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-06-30') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-06-30'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "spot"
+      },
+      "traces": {
+        "madeup_north": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "reported_ebitda",
+          "ranking": [
+            {
+              "column": "reported_ebitda",
+              "score": 2,
+              "length": 15
+            }
+          ],
+          "searched_relation": "north.ledger.monthly_pack"
+        },
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "EbitdaAfterAddbacks",
+          "ranking": [
+            {
+              "column": "EbitdaAfterAddbacks",
+              "score": 2,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "EbitdaAfterAddbacks",
+          "MonthEnding",
+          "gbp_per_usd",
+          "period_end",
+          "reported_ebitda",
+          "value"
+        ],
+        "rejected_columns": [
+          "EbitdaAfterAddbacks",
+          "reported_ebitda"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: EbitdaAfterAddbacks, reported_ebitda; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "8636756.18",
+    "display": "GBP 8,636,756.18",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q18",
+    "question": "What was the year-on-year growth in consolidated Net Revenue from FY2024 to FY2025?",
+    "sql": "SELECT\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2024-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n) AS part_1\n) AS combined\n  ) AS earlier_q) AS earlier,\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS later_q) AS later",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "earlier": {
+          "madeup_north": "none",
+          "madeup_west": "spot"
+        },
+        "later": {
+          "madeup_north": "none",
+          "madeup_west": "spot"
+        }
+      },
+      "traces": {
+        "earlier": {
+          "madeup_north": {
+            "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+            "chosen_column": "billed_turnover_gross",
+            "ranking": [
+              {
+                "column": "billed_turnover_gross",
+                "score": 3,
+                "length": 21
+              },
+              {
+                "column": "third_party_billed_gross",
+                "score": 2,
+                "length": 24
+              },
+              {
+                "column": "intercompany_billed_gross",
+                "score": 2,
+                "length": 25
+              }
+            ],
+            "searched_relation": "north.ledger.monthly_pack"
+          },
+          "madeup_west": {
+            "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+            "chosen_column": "GrossBillings",
+            "ranking": [
+              {
+                "column": "GrossBillings",
+                "score": 2,
+                "length": 13
+              },
+              {
+                "column": "RecognizedNetSales",
+                "score": 1,
+                "length": 18
+              },
+              {
+                "column": "BilledNotRecognized",
+                "score": 1,
+                "length": 19
+              }
+            ],
+            "searched_relation": "west.ops.MonthlyPnl"
+          }
+        },
+        "later": {
+          "madeup_north": {
+            "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+            "chosen_column": "billed_turnover_gross",
+            "ranking": [
+              {
+                "column": "billed_turnover_gross",
+                "score": 3,
+                "length": 21
+              },
+              {
+                "column": "third_party_billed_gross",
+                "score": 2,
+                "length": 24
+              },
+              {
+                "column": "intercompany_billed_gross",
+                "score": 2,
+                "length": 25
+              }
+            ],
+            "searched_relation": "north.ledger.monthly_pack"
+          },
+          "madeup_west": {
+            "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+            "chosen_column": "GrossBillings",
+            "ranking": [
+              {
+                "column": "GrossBillings",
+                "score": 2,
+                "length": 13
+              },
+              {
+                "column": "RecognizedNetSales",
+                "score": 1,
+                "length": 18
+              },
+              {
+                "column": "BilledNotRecognized",
+                "score": 1,
+                "length": 19
+              }
+            ],
+            "searched_relation": "west.ops.MonthlyPnl"
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "GrossBillings",
+          "MonthEnding",
+          "billed_turnover_gross",
+          "gbp_per_usd",
+          "period_end",
+          "value"
+        ],
+        "rejected_columns": [
+          "GrossBillings",
+          "billed_turnover_gross"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: GrossBillings, billed_turnover_gross; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false,
+      "components": {
+        "earlier": "115429603.84",
+        "later": "123149528.32"
+      }
+    },
+    "status": "answered",
+    "value": "0.066880",
+    "display": "6.6880%",
+    "unit": "ratio",
+    "value_kind": "ratio"
+  },
+  {
+    "question_id": "Q19",
+    "question": "What was Madeup West Assemblies Inc's LTM Net Revenue at Jun 2025, in USD?",
+    "sql": "SELECT SUM((GrossBillings)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2024-07-31' AND t.MonthEnding <= DATE '2025-06-30'",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_west": "none"
+      },
+      "traces": {
+        "madeup_west": {
+          "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+          "chosen_column": "GrossBillings",
+          "ranking": [
+            {
+              "column": "GrossBillings",
+              "score": 2,
+              "length": 13
+            },
+            {
+              "column": "RecognizedNetSales",
+              "score": 1,
+              "length": 18
+            },
+            {
+              "column": "BilledNotRecognized",
+              "score": 1,
+              "length": 19
+            }
+          ],
+          "searched_relation": "west.ops.MonthlyPnl"
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "GrossBillings",
+          "MonthEnding"
+        ],
+        "rejected_columns": [
+          "GrossBillings"
+        ],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": "columns outside the agreed lineage: GrossBillings"
+      },
+      "guard_blocks_execution": false
+    },
+    "status": "answered",
+    "value": "86294720.00",
+    "display": "USD 86,294,720.00",
+    "unit": "USD",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q20",
+    "question": "By how many percentage points did the consolidated LTM Adjusted EBITDA margin change from Dec 2024 to Dec 2025?",
+    "sql": "SELECT early.numerator AS earlier_numerator,\n       early.denominator AS earlier_denominator,\n       late.numerator AS later_numerator,\n       late.denominator AS later_denominator\nFROM (\nSELECT\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((EbitdaAfterAddbacks)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2024-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n) AS part_1\n) AS combined\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2024-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n) AS part_1\n) AS combined\n  ) AS denominator_q) AS denominator\n) AS early\nCROSS JOIN (\nSELECT\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((reported_ebitda)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((EbitdaAfterAddbacks)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((billed_turnover_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT CAST(SUM((GrossBillings)) * (SELECT gbp_per_usd FROM holdco.ref.fx_monthly WHERE period_end = DATE '2025-12-31') AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS denominator_q) AS denominator\n) AS late",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "earlier": {
+          "adjusted_ebitda": {
+            "madeup_north": "none",
+            "madeup_west": "spot"
+          },
+          "net_revenue": {
+            "madeup_north": "none",
+            "madeup_west": "spot"
+          }
+        },
+        "later": {
+          "adjusted_ebitda": {
+            "madeup_north": "none",
+            "madeup_west": "spot"
+          },
+          "net_revenue": {
+            "madeup_north": "none",
+            "madeup_west": "spot"
+          }
+        }
+      },
+      "traces": {
+        "earlier": {
+          "adjusted_ebitda": {
+            "madeup_north": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "reported_ebitda",
+              "ranking": [
+                {
+                  "column": "reported_ebitda",
+                  "score": 2,
+                  "length": 15
+                }
+              ],
+              "searched_relation": "north.ledger.monthly_pack"
+            },
+            "madeup_west": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "EbitdaAfterAddbacks",
+              "ranking": [
+                {
+                  "column": "EbitdaAfterAddbacks",
+                  "score": 2,
+                  "length": 19
+                }
+              ],
+              "searched_relation": "west.ops.MonthlyPnl"
+            }
+          },
+          "net_revenue": {
+            "madeup_north": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "billed_turnover_gross",
+              "ranking": [
+                {
+                  "column": "billed_turnover_gross",
+                  "score": 3,
+                  "length": 21
+                },
+                {
+                  "column": "third_party_billed_gross",
+                  "score": 2,
+                  "length": 24
+                },
+                {
+                  "column": "intercompany_billed_gross",
+                  "score": 2,
+                  "length": 25
+                }
+              ],
+              "searched_relation": "north.ledger.monthly_pack"
+            },
+            "madeup_west": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "GrossBillings",
+              "ranking": [
+                {
+                  "column": "GrossBillings",
+                  "score": 2,
+                  "length": 13
+                },
+                {
+                  "column": "RecognizedNetSales",
+                  "score": 1,
+                  "length": 18
+                },
+                {
+                  "column": "BilledNotRecognized",
+                  "score": 1,
+                  "length": 19
+                }
+              ],
+              "searched_relation": "west.ops.MonthlyPnl"
+            }
+          }
+        },
+        "later": {
+          "adjusted_ebitda": {
+            "madeup_north": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "reported_ebitda",
+              "ranking": [
+                {
+                  "column": "reported_ebitda",
+                  "score": 2,
+                  "length": 15
+                }
+              ],
+              "searched_relation": "north.ledger.monthly_pack"
+            },
+            "madeup_west": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "EbitdaAfterAddbacks",
+              "ranking": [
+                {
+                  "column": "EbitdaAfterAddbacks",
+                  "score": 2,
+                  "length": 19
+                }
+              ],
+              "searched_relation": "west.ops.MonthlyPnl"
+            }
+          },
+          "net_revenue": {
+            "madeup_north": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "billed_turnover_gross",
+              "ranking": [
+                {
+                  "column": "billed_turnover_gross",
+                  "score": 3,
+                  "length": 21
+                },
+                {
+                  "column": "third_party_billed_gross",
+                  "score": 2,
+                  "length": 24
+                },
+                {
+                  "column": "intercompany_billed_gross",
+                  "score": 2,
+                  "length": 25
+                }
+              ],
+              "searched_relation": "north.ledger.monthly_pack"
+            },
+            "madeup_west": {
+              "heuristic": "Score fact-table columns by token overlap. One extra point if the name contains gross, reported, after, or headline. Highest score wins, then the shorter name, then alphabetical order. The fund policy table is not searched.",
+              "chosen_column": "GrossBillings",
+              "ranking": [
+                {
+                  "column": "GrossBillings",
+                  "score": 2,
+                  "length": 13
+                },
+                {
+                  "column": "RecognizedNetSales",
+                  "score": 1,
+                  "length": 18
+                },
+                {
+                  "column": "BilledNotRecognized",
+                  "score": 1,
+                  "length": 19
+                }
+              ],
+              "searched_relation": "west.ops.MonthlyPnl"
+            }
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": false,
+        "columns": [
+          "EbitdaAfterAddbacks",
+          "GrossBillings",
+          "MonthEnding",
+          "billed_turnover_gross",
+          "denominator",
+          "gbp_per_usd",
+          "numerator",
+          "period_end",
+          "reported_ebitda",
+          "value"
+        ],
+        "rejected_columns": [
+          "EbitdaAfterAddbacks",
+          "GrossBillings",
+          "billed_turnover_gross",
+          "reported_ebitda"
+        ],
+        "sum_multiplied_by_rate": true,
+        "require_monthly_fx": true,
+        "reason": "columns outside the agreed lineage: EbitdaAfterAddbacks, GrossBillings, billed_turnover_gross, reported_ebitda; a summed amount is multiplied by one rate; the agreed rule rounds each month"
+      },
+      "guard_blocks_execution": false,
+      "components": {
+        "earlier_ratio": "0.145533",
+        "later_ratio": "0.140616"
+      }
+    },
+    "status": "answered",
+    "value": "-0.4917",
+    "display": "-0.4917 pp",
+    "unit": "percentage_points",
+    "value_kind": "percentage_points"
+  },
+  {
+    "question_id": "Q21",
+    "question": "What was consolidated return on advertising spend in FY2025?",
+    "sql": null,
+    "status": "unanswerable",
+    "value": null,
+    "display": "unanswerable",
+    "unit": null,
+    "value_kind": "unanswerable",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {},
+      "traces": {},
+      "definition_guard": {
+        "passed": null,
+        "reason": "no agreed definition and no mapped fact column"
+      },
+      "guard_blocks_execution": false,
+      "missing_concept": "advertising_spend",
+      "reason": "The stand-in has no agreed definition for this concept and does not invent a column."
+    }
+  },
+  {
+    "question_id": "Q22",
+    "question": "What was consolidated like-for-like organic revenue growth excluding acquisitions in FY2025?",
+    "sql": null,
+    "status": "unanswerable",
+    "value": null,
+    "display": "unanswerable",
+    "unit": null,
+    "value_kind": "unanswerable",
+    "provenance": {
+      "condition": "stand_in_baseline",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {},
+      "traces": {},
+      "definition_guard": {
+        "passed": null,
+        "reason": "no agreed definition and no mapped fact column"
+      },
+      "guard_blocks_execution": false,
+      "missing_concept": "organic_revenue_excluding_acquisitions",
+      "reason": "The stand-in has no agreed definition for this concept and does not invent a column."
+    }
+  }
+]

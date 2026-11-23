@@ -1,0 +1,27 @@
+{
+  "project": "pe-trusted-metrics-ontology",
+  "fiction": true,
+  "what_ran": {
+    "python_ground_truth": true,
+    "baseline_stand_in": true,
+    "grounded_stand_in": true,
+    "auto_ontology_docker_compose": false,
+    "auto_ontology_model": false,
+    "kumo_rfm": "off",
+    "catalog_extraction": true
+  },
+  "auto_ontology_commit": "fc43a82600e18b19d159c52023f54f5572f537ac",
+  "result_files": [
+    "auto_ontology_probe.json",
+    "baseline_answers.json",
+    "baseline_column_choices.json",
+    "doc_sentences.json",
+    "ground_truth.json",
+    "grounded_answers.json",
+    "run_manifest.json",
+    "sample_results.md",
+    "scenario.json",
+    "scoreboard.json",
+    "worked_example.json"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "january": "2024-01-31",
+  "north_january_fund_net_revenue": "GBP 3,220,000.00",
+  "north_january_fund_adjusted_ebitda": "GBP 579,600.00",
+  "north_january_reported_ebitda": "GBP 428,000.00",
+  "west_january_fund_adjusted_ebitda": "USD 835,117.12",
+  "west_january_local_ebitda": "USD 1,080,719.94",
+  "ltm_dec_2025_fund_margin": {
+    "madeup_north": "20.1783%",
+    "madeup_west": "14.8721%"
+  },
+  "ltm_dec_2025_local_margin": {
+    "madeup_north": "10.3133%",
+    "madeup_west": "16.9552%"
+  },
+  "ltm_dec_2025_fund_margin_leader": "Madeup North Logistics Ltd",
+  "ltm_dec_2025_local_margin_leader": "Madeup West Assemblies Inc"
+}

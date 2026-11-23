@@ -1,0 +1,212 @@
+# Questions a fund team might ask of the two fictional ledgers.
+# Ground truth is computed in Python from the agreed definitions.
+# The structured task is for the offline stand-in only. A model rerun should
+# see the question text, not this task block.
+
+questions:
+  - id: Q01
+    text: What was Madeup North Logistics Ltd's Net Revenue for FY2025, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: net_revenue
+      scope: madeup_north
+      window: {kind: fy, year: 2025}
+      currency: GBP
+
+  - id: Q02
+    text: What was Madeup West Assemblies Inc's Net Revenue for FY2025, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: net_revenue
+      scope: madeup_west
+      window: {kind: fy, year: 2025}
+      currency: GBP
+
+  - id: Q03
+    text: What was consolidated Net Revenue for FY2025, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: net_revenue
+      scope: consolidated
+      window: {kind: fy, year: 2025}
+      currency: GBP
+
+  - id: Q04
+    text: What was consolidated LTM Adjusted EBITDA at Dec 2025, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: adjusted_ebitda
+      scope: consolidated
+      window: {kind: ltm, end: "2025-12-31"}
+      currency: GBP
+
+  - id: Q05
+    text: What was consolidated LTM Adjusted EBITDA at Dec 2024, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: adjusted_ebitda
+      scope: consolidated
+      window: {kind: ltm, end: "2024-12-31"}
+      currency: GBP
+
+  - id: Q06
+    text: What was consolidated LTM Net Revenue at Sep 2025, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: net_revenue
+      scope: consolidated
+      window: {kind: ltm, end: "2025-09-30"}
+      currency: GBP
+
+  - id: Q07
+    text: What was the consolidated LTM Adjusted EBITDA margin at Dec 2025?
+    answerable: true
+    task:
+      kind: margin
+      scope: consolidated
+      window: {kind: ltm, end: "2025-12-31"}
+      currency: GBP
+
+  - id: Q08
+    text: Which company had the higher LTM Adjusted EBITDA margin at Dec 2025?
+    answerable: true
+    task:
+      kind: compare_margin
+      window: {kind: ltm, end: "2025-12-31"}
+      currency: GBP
+
+  - id: Q09
+    text: Which company had the higher Adjusted EBITDA margin growth from LTM Dec 2024 to LTM Dec 2025?
+    answerable: true
+    task:
+      kind: compare_margin_growth
+      window_earlier: {kind: ltm, end: "2024-12-31"}
+      window_later: {kind: ltm, end: "2025-12-31"}
+      currency: GBP
+
+  - id: Q10
+    text: What was Madeup North Logistics Ltd's Adjusted EBITDA for FY2025, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: adjusted_ebitda
+      scope: madeup_north
+      window: {kind: fy, year: 2025}
+      currency: GBP
+
+  - id: Q11
+    text: What was Madeup West Assemblies Inc's Adjusted EBITDA for FY2025, in USD?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: adjusted_ebitda
+      scope: madeup_west
+      window: {kind: fy, year: 2025}
+      currency: USD
+
+  - id: Q12
+    text: How much of Madeup West Assemblies Inc's FY2025 management add-backs did the fund decline, in USD?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: declined_management_addback
+      scope: madeup_west
+      window: {kind: fy, year: 2025}
+      currency: USD
+
+  - id: Q13
+    text: What was consolidated Net Revenue in Q4 2025, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: net_revenue
+      scope: consolidated
+      window: {kind: q4, year: 2025}
+      currency: GBP
+
+  - id: Q14
+    text: What was the fund's IFRS 16 lease add-back in consolidated FY2025 Adjusted EBITDA, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: ifrs16_lease_addback
+      scope: consolidated
+      window: {kind: fy, year: 2025}
+      currency: GBP
+
+  - id: Q15
+    text: What was intercompany revenue eliminated from consolidated FY2025 Net Revenue, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: intercompany_revenue_eliminated
+      scope: consolidated
+      window: {kind: fy, year: 2025}
+      currency: GBP
+
+  - id: Q16
+    text: Which month in calendar 2025 had the highest consolidated Adjusted EBITDA?
+    answerable: true
+    task:
+      kind: argmax_month
+      metric: adjusted_ebitda
+      scope: consolidated
+      window: {kind: fy, year: 2025}
+      currency: GBP
+
+  - id: Q17
+    text: What was consolidated Adjusted EBITDA for H1 2025, in GBP?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: adjusted_ebitda
+      scope: consolidated
+      window: {kind: h1, year: 2025}
+      currency: GBP
+
+  - id: Q18
+    text: What was the year-on-year growth in consolidated Net Revenue from FY2024 to FY2025?
+    answerable: true
+    task:
+      kind: growth_ratio
+      metric: net_revenue
+      scope: consolidated
+      window_earlier: {kind: fy, year: 2024}
+      window_later: {kind: fy, year: 2025}
+      currency: GBP
+
+  - id: Q19
+    text: What was Madeup West Assemblies Inc's LTM Net Revenue at Jun 2025, in USD?
+    answerable: true
+    task:
+      kind: aggregate
+      metric: net_revenue
+      scope: madeup_west
+      window: {kind: ltm, end: "2025-06-30"}
+      currency: USD
+
+  - id: Q20
+    text: By how many percentage points did the consolidated LTM Adjusted EBITDA margin change from Dec 2024 to Dec 2025?
+    answerable: true
+    task:
+      kind: margin_change_pp
+      scope: consolidated
+      window_earlier: {kind: ltm, end: "2024-12-31"}
+      window_later: {kind: ltm, end: "2025-12-31"}
+      currency: GBP
+
+  - id: Q21
+    text: What was consolidated return on advertising spend in FY2025?
+    answerable: false
+    missing_concept: advertising_spend
+
+  - id: Q22
+    text: What was consolidated like-for-like organic revenue growth excluding acquisitions in FY2025?
+    answerable: false
+    missing_concept: organic_revenue_excluding_acquisitions

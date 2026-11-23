@@ -1,0 +1,1614 @@
+[
+  {
+    "question_id": "Q01",
+    "question": "What was Madeup North Logistics Ltd's Net Revenue for FY2025, in GBP?",
+    "sql": "SELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "net_revenue",
+          "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+          "lineage": [
+            "third_party_billed_gross",
+            "rebate_accrual",
+            "deferred_unearned",
+            "prior_period_release"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "deferred_unearned",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "46971087.20",
+    "display": "GBP 46,971,087.20",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q02",
+    "question": "What was Madeup West Assemblies Inc's Net Revenue for FY2025, in GBP?",
+    "sql": "SELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_west": {
+          "definition_id": "net_revenue",
+          "expression": "RecognizedNetSales",
+          "lineage": [
+            "RecognizedNetSales"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "MonthEnding",
+          "RecognizedNetSales",
+          "gbp_per_usd",
+          "period_end"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "63172934.25",
+    "display": "GBP 63,172,934.25",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q03",
+    "question": "What was consolidated Net Revenue for FY2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "net_revenue",
+          "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+          "lineage": [
+            "third_party_billed_gross",
+            "rebate_accrual",
+            "deferred_unearned",
+            "prior_period_release"
+          ],
+          "grain": "fact"
+        },
+        "madeup_west": {
+          "definition_id": "net_revenue",
+          "expression": "RecognizedNetSales",
+          "lineage": [
+            "RecognizedNetSales"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "MonthEnding",
+          "RecognizedNetSales",
+          "deferred_unearned",
+          "gbp_per_usd",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "110144021.45",
+    "display": "GBP 110,144,021.45",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q04",
+    "question": "What was consolidated LTM Adjusted EBITDA at Dec 2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+          "lineage": [
+            "third_party_billed_gross",
+            "rebate_accrual",
+            "deferred_unearned",
+            "prior_period_release",
+            "cash_opex_excl_rent",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        },
+        "madeup_west": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+          "lineage": [
+            "RecognizedNetSales",
+            "CashOperatingCost",
+            "IntercompanyPurchasesUsd",
+            "OneOffCharges",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "CashOperatingCost",
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "OneOffCharges",
+          "RecognizedNetSales",
+          "cash_opex_excl_rent",
+          "deferred_unearned",
+          "entity_code",
+          "gbp_per_usd",
+          "ic_approved_addback_functional",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "18873128.33",
+    "display": "GBP 18,873,128.33",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q05",
+    "question": "What was consolidated LTM Adjusted EBITDA at Dec 2024, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+          "lineage": [
+            "third_party_billed_gross",
+            "rebate_accrual",
+            "deferred_unearned",
+            "prior_period_release",
+            "cash_opex_excl_rent",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        },
+        "madeup_west": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+          "lineage": [
+            "RecognizedNetSales",
+            "CashOperatingCost",
+            "IntercompanyPurchasesUsd",
+            "OneOffCharges",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "CashOperatingCost",
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "OneOffCharges",
+          "RecognizedNetSales",
+          "cash_opex_excl_rent",
+          "deferred_unearned",
+          "entity_code",
+          "gbp_per_usd",
+          "ic_approved_addback_functional",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "17726702.74",
+    "display": "GBP 17,726,702.74",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q06",
+    "question": "What was consolidated LTM Net Revenue at Sep 2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-10-31' AND t.period_end <= DATE '2025-09-30'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2024-10-31' AND t.MonthEnding <= DATE '2025-09-30'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "net_revenue",
+          "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+          "lineage": [
+            "third_party_billed_gross",
+            "rebate_accrual",
+            "deferred_unearned",
+            "prior_period_release"
+          ],
+          "grain": "fact"
+        },
+        "madeup_west": {
+          "definition_id": "net_revenue",
+          "expression": "RecognizedNetSales",
+          "lineage": [
+            "RecognizedNetSales"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "MonthEnding",
+          "RecognizedNetSales",
+          "deferred_unearned",
+          "gbp_per_usd",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "108545786.36",
+    "display": "GBP 108,545,786.36",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q07",
+    "question": "What was the consolidated LTM Adjusted EBITDA margin at Dec 2025?",
+    "sql": "SELECT\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS denominator_q) AS denominator",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "adjusted_ebitda": {
+          "madeup_north": "none",
+          "madeup_west": "monthly"
+        },
+        "net_revenue": {
+          "madeup_north": "none",
+          "madeup_west": "monthly"
+        }
+      },
+      "traces": {
+        "adjusted_ebitda": {
+          "madeup_north": {
+            "definition_id": "adjusted_ebitda",
+            "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+            "lineage": [
+              "third_party_billed_gross",
+              "rebate_accrual",
+              "deferred_unearned",
+              "prior_period_release",
+              "cash_opex_excl_rent",
+              "ic_approved_addback_functional"
+            ],
+            "grain": "fact"
+          },
+          "madeup_west": {
+            "definition_id": "adjusted_ebitda",
+            "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+            "lineage": [
+              "RecognizedNetSales",
+              "CashOperatingCost",
+              "IntercompanyPurchasesUsd",
+              "OneOffCharges",
+              "ic_approved_addback_functional"
+            ],
+            "grain": "fact"
+          }
+        },
+        "net_revenue": {
+          "madeup_north": {
+            "definition_id": "net_revenue",
+            "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+            "lineage": [
+              "third_party_billed_gross",
+              "rebate_accrual",
+              "deferred_unearned",
+              "prior_period_release"
+            ],
+            "grain": "fact"
+          },
+          "madeup_west": {
+            "definition_id": "net_revenue",
+            "expression": "RecognizedNetSales",
+            "lineage": [
+              "RecognizedNetSales"
+            ],
+            "grain": "fact"
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "CashOperatingCost",
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "OneOffCharges",
+          "RecognizedNetSales",
+          "cash_opex_excl_rent",
+          "deferred_unearned",
+          "entity_code",
+          "gbp_per_usd",
+          "ic_approved_addback_functional",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true,
+      "components": {
+        "numerator": "18873128.33",
+        "denominator": "110144021.45"
+      }
+    },
+    "status": "answered",
+    "value": "0.171350",
+    "display": "17.1350%",
+    "unit": "ratio",
+    "value_kind": "ratio"
+  },
+  {
+    "question_id": "Q08",
+    "question": "Which company had the higher LTM Adjusted EBITDA margin at Dec 2025?",
+    "sql": "SELECT\n  'madeup_north' AS entity_code,\n  (SELECT value FROM (\nSELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n  ) AS denominator_q) AS denominator\nUNION ALL\nSELECT\n  'madeup_west' AS entity_code,\n  (SELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n  ) AS denominator_q) AS denominator",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": {
+          "adjusted_ebitda": {
+            "madeup_north": "none"
+          },
+          "net_revenue": {
+            "madeup_north": "none"
+          }
+        },
+        "madeup_west": {
+          "adjusted_ebitda": {
+            "madeup_west": "monthly"
+          },
+          "net_revenue": {
+            "madeup_west": "monthly"
+          }
+        }
+      },
+      "traces": {
+        "madeup_north": {
+          "adjusted_ebitda": {
+            "madeup_north": {
+              "definition_id": "adjusted_ebitda",
+              "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+              "lineage": [
+                "third_party_billed_gross",
+                "rebate_accrual",
+                "deferred_unearned",
+                "prior_period_release",
+                "cash_opex_excl_rent",
+                "ic_approved_addback_functional"
+              ],
+              "grain": "fact"
+            }
+          },
+          "net_revenue": {
+            "madeup_north": {
+              "definition_id": "net_revenue",
+              "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+              "lineage": [
+                "third_party_billed_gross",
+                "rebate_accrual",
+                "deferred_unearned",
+                "prior_period_release"
+              ],
+              "grain": "fact"
+            }
+          }
+        },
+        "madeup_west": {
+          "adjusted_ebitda": {
+            "madeup_west": {
+              "definition_id": "adjusted_ebitda",
+              "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+              "lineage": [
+                "RecognizedNetSales",
+                "CashOperatingCost",
+                "IntercompanyPurchasesUsd",
+                "OneOffCharges",
+                "ic_approved_addback_functional"
+              ],
+              "grain": "fact"
+            }
+          },
+          "net_revenue": {
+            "madeup_west": {
+              "definition_id": "net_revenue",
+              "expression": "RecognizedNetSales",
+              "lineage": [
+                "RecognizedNetSales"
+              ],
+              "grain": "fact"
+            }
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "CashOperatingCost",
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "OneOffCharges",
+          "RecognizedNetSales",
+          "cash_opex_excl_rent",
+          "deferred_unearned",
+          "entity_code",
+          "gbp_per_usd",
+          "ic_approved_addback_functional",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true,
+      "components": {
+        "companies": {
+          "madeup_north": {
+            "ratio": "0.201783",
+            "numerator": "9477967.20",
+            "denominator": "46971087.20"
+          },
+          "madeup_west": {
+            "ratio": "0.148721",
+            "numerator": "9395161.13",
+            "denominator": "63172934.25"
+          }
+        }
+      }
+    },
+    "status": "answered",
+    "value": "Madeup North Logistics Ltd",
+    "display": "Madeup North Logistics Ltd",
+    "unit": "entity",
+    "value_kind": "entity"
+  },
+  {
+    "question_id": "Q09",
+    "question": "Which company had the higher Adjusted EBITDA margin growth from LTM Dec 2024 to LTM Dec 2025?",
+    "sql": "SELECT earlier.entity_code AS entity_code,\n       earlier.numerator AS earlier_numerator,\n       earlier.denominator AS earlier_denominator,\n       later.numerator AS later_numerator,\n       later.denominator AS later_denominator\nFROM (\nSELECT\n  'madeup_north' AS entity_code,\n  (SELECT value FROM (\nSELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n  ) AS denominator_q) AS denominator\nUNION ALL\nSELECT\n  'madeup_west' AS entity_code,\n  (SELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n  ) AS denominator_q) AS denominator\n) AS earlier\nINNER JOIN (\nSELECT\n  'madeup_north' AS entity_code,\n  (SELECT value FROM (\nSELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n  ) AS denominator_q) AS denominator\nUNION ALL\nSELECT\n  'madeup_west' AS entity_code,\n  (SELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n  ) AS denominator_q) AS denominator\n) AS later ON earlier.entity_code = later.entity_code",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "earlier": {
+          "madeup_north": {
+            "adjusted_ebitda": {
+              "madeup_north": "none"
+            },
+            "net_revenue": {
+              "madeup_north": "none"
+            }
+          },
+          "madeup_west": {
+            "adjusted_ebitda": {
+              "madeup_west": "monthly"
+            },
+            "net_revenue": {
+              "madeup_west": "monthly"
+            }
+          }
+        },
+        "later": {
+          "madeup_north": {
+            "adjusted_ebitda": {
+              "madeup_north": "none"
+            },
+            "net_revenue": {
+              "madeup_north": "none"
+            }
+          },
+          "madeup_west": {
+            "adjusted_ebitda": {
+              "madeup_west": "monthly"
+            },
+            "net_revenue": {
+              "madeup_west": "monthly"
+            }
+          }
+        }
+      },
+      "traces": {
+        "earlier": {
+          "madeup_north": {
+            "adjusted_ebitda": {
+              "madeup_north": {
+                "definition_id": "adjusted_ebitda",
+                "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+                "lineage": [
+                  "third_party_billed_gross",
+                  "rebate_accrual",
+                  "deferred_unearned",
+                  "prior_period_release",
+                  "cash_opex_excl_rent",
+                  "ic_approved_addback_functional"
+                ],
+                "grain": "fact"
+              }
+            },
+            "net_revenue": {
+              "madeup_north": {
+                "definition_id": "net_revenue",
+                "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+                "lineage": [
+                  "third_party_billed_gross",
+                  "rebate_accrual",
+                  "deferred_unearned",
+                  "prior_period_release"
+                ],
+                "grain": "fact"
+              }
+            }
+          },
+          "madeup_west": {
+            "adjusted_ebitda": {
+              "madeup_west": {
+                "definition_id": "adjusted_ebitda",
+                "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+                "lineage": [
+                  "RecognizedNetSales",
+                  "CashOperatingCost",
+                  "IntercompanyPurchasesUsd",
+                  "OneOffCharges",
+                  "ic_approved_addback_functional"
+                ],
+                "grain": "fact"
+              }
+            },
+            "net_revenue": {
+              "madeup_west": {
+                "definition_id": "net_revenue",
+                "expression": "RecognizedNetSales",
+                "lineage": [
+                  "RecognizedNetSales"
+                ],
+                "grain": "fact"
+              }
+            }
+          }
+        },
+        "later": {
+          "madeup_north": {
+            "adjusted_ebitda": {
+              "madeup_north": {
+                "definition_id": "adjusted_ebitda",
+                "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+                "lineage": [
+                  "third_party_billed_gross",
+                  "rebate_accrual",
+                  "deferred_unearned",
+                  "prior_period_release",
+                  "cash_opex_excl_rent",
+                  "ic_approved_addback_functional"
+                ],
+                "grain": "fact"
+              }
+            },
+            "net_revenue": {
+              "madeup_north": {
+                "definition_id": "net_revenue",
+                "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+                "lineage": [
+                  "third_party_billed_gross",
+                  "rebate_accrual",
+                  "deferred_unearned",
+                  "prior_period_release"
+                ],
+                "grain": "fact"
+              }
+            }
+          },
+          "madeup_west": {
+            "adjusted_ebitda": {
+              "madeup_west": {
+                "definition_id": "adjusted_ebitda",
+                "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+                "lineage": [
+                  "RecognizedNetSales",
+                  "CashOperatingCost",
+                  "IntercompanyPurchasesUsd",
+                  "OneOffCharges",
+                  "ic_approved_addback_functional"
+                ],
+                "grain": "fact"
+              }
+            },
+            "net_revenue": {
+              "madeup_west": {
+                "definition_id": "net_revenue",
+                "expression": "RecognizedNetSales",
+                "lineage": [
+                  "RecognizedNetSales"
+                ],
+                "grain": "fact"
+              }
+            }
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "CashOperatingCost",
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "OneOffCharges",
+          "RecognizedNetSales",
+          "cash_opex_excl_rent",
+          "deferred_unearned",
+          "denominator",
+          "entity_code",
+          "gbp_per_usd",
+          "ic_approved_addback_functional",
+          "numerator",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true,
+      "components": {
+        "companies": {
+          "madeup_north": {
+            "earlier": "0.200450",
+            "later": "0.201783",
+            "change": "0.001333"
+          },
+          "madeup_west": {
+            "earlier": "0.149231",
+            "later": "0.148721",
+            "change": "-0.000510"
+          }
+        }
+      }
+    },
+    "status": "answered",
+    "value": "Madeup North Logistics Ltd",
+    "display": "Madeup North Logistics Ltd",
+    "unit": "entity",
+    "value_kind": "entity"
+  },
+  {
+    "question_id": "Q10",
+    "question": "What was Madeup North Logistics Ltd's Adjusted EBITDA for FY2025, in GBP?",
+    "sql": "SELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+          "lineage": [
+            "third_party_billed_gross",
+            "rebate_accrual",
+            "deferred_unearned",
+            "prior_period_release",
+            "cash_opex_excl_rent",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "cash_opex_excl_rent",
+          "deferred_unearned",
+          "entity_code",
+          "ic_approved_addback_functional",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "9477967.20",
+    "display": "GBP 9,477,967.20",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q11",
+    "question": "What was Madeup West Assemblies Inc's Adjusted EBITDA for FY2025, in USD?",
+    "sql": "SELECT SUM((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional)) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_west": "none"
+      },
+      "traces": {
+        "madeup_west": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+          "lineage": [
+            "RecognizedNetSales",
+            "CashOperatingCost",
+            "IntercompanyPurchasesUsd",
+            "OneOffCharges",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "CashOperatingCost",
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "OneOffCharges",
+          "RecognizedNetSales",
+          "entity_code",
+          "ic_approved_addback_functional",
+          "period_end"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "11787855.19",
+    "display": "USD 11,787,855.19",
+    "unit": "USD",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q12",
+    "question": "How much of Madeup West Assemblies Inc's FY2025 management add-backs did the fund decline, in USD?",
+    "sql": "SELECT SUM((rejected_addback_functional)) AS value\nFROM holdco.ref.policy_adjustment AS t\nWHERE t.entity_code = 'madeup_west'\n  AND t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_west": "none"
+      },
+      "traces": {
+        "madeup_west": {
+          "definition_id": "declined_management_addback",
+          "expression": "rejected_addback_functional",
+          "lineage": [
+            "rejected_addback_functional"
+          ],
+          "grain": "policy"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "entity_code",
+          "period_end",
+          "rejected_addback_functional"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "5068800.00",
+    "display": "USD 5,068,800.00",
+    "unit": "USD",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q13",
+    "question": "What was consolidated Net Revenue in Q4 2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-10-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-10-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "net_revenue",
+          "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+          "lineage": [
+            "third_party_billed_gross",
+            "rebate_accrual",
+            "deferred_unearned",
+            "prior_period_release"
+          ],
+          "grain": "fact"
+        },
+        "madeup_west": {
+          "definition_id": "net_revenue",
+          "expression": "RecognizedNetSales",
+          "lineage": [
+            "RecognizedNetSales"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "MonthEnding",
+          "RecognizedNetSales",
+          "deferred_unearned",
+          "gbp_per_usd",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "27334246.32",
+    "display": "GBP 27,334,246.32",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q14",
+    "question": "What was the fund's IFRS 16 lease add-back in consolidated FY2025 Adjusted EBITDA, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((property_rent)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((CAST(0 AS DECIMAL(18,2))) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "ifrs16_lease_addback",
+          "expression": "property_rent",
+          "lineage": [
+            "property_rent"
+          ],
+          "grain": "fact"
+        },
+        "madeup_west": {
+          "definition_id": "ifrs16_lease_addback",
+          "expression": "CAST(0 AS DECIMAL(18,2))",
+          "lineage": [],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "MonthEnding",
+          "gbp_per_usd",
+          "period_end",
+          "property_rent",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "4968000.00",
+    "display": "GBP 4,968,000.00",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q15",
+    "question": "What was intercompany revenue eliminated from consolidated FY2025 Net Revenue, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((intercompany_billed_gross)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((CAST(0 AS DECIMAL(18,2))) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "intercompany_revenue_eliminated",
+          "expression": "intercompany_billed_gross",
+          "lineage": [
+            "intercompany_billed_gross"
+          ],
+          "grain": "fact"
+        },
+        "madeup_west": {
+          "definition_id": "intercompany_revenue_eliminated",
+          "expression": "CAST(0 AS DECIMAL(18,2))",
+          "lineage": [],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "MonthEnding",
+          "gbp_per_usd",
+          "intercompany_billed_gross",
+          "period_end",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "1440000.00",
+    "display": "GBP 1,440,000.00",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q16",
+    "question": "Which month in calendar 2025 had the highest consolidated Adjusted EBITDA?",
+    "sql": "SELECT period_end, SUM(value) AS value\nFROM (\nSELECT t.period_end AS period_end, ((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\nUNION ALL\nSELECT t.MonthEnding AS period_end, CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2)) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS monthly\nGROUP BY period_end\nORDER BY value DESC, period_end ASC\nLIMIT 1",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+          "lineage": [
+            "third_party_billed_gross",
+            "rebate_accrual",
+            "deferred_unearned",
+            "prior_period_release",
+            "cash_opex_excl_rent",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        },
+        "madeup_west": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+          "lineage": [
+            "RecognizedNetSales",
+            "CashOperatingCost",
+            "IntercompanyPurchasesUsd",
+            "OneOffCharges",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "CashOperatingCost",
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "OneOffCharges",
+          "RecognizedNetSales",
+          "cash_opex_excl_rent",
+          "deferred_unearned",
+          "entity_code",
+          "gbp_per_usd",
+          "ic_approved_addback_functional",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true,
+      "components": {
+        "amount": "GBP 1,703,911.05"
+      }
+    },
+    "status": "answered",
+    "value": "2025-06-30",
+    "display": "2025-06-30",
+    "unit": "month",
+    "value_kind": "month"
+  },
+  {
+    "question_id": "Q17",
+    "question": "What was consolidated Adjusted EBITDA for H1 2025, in GBP?",
+    "sql": "SELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-06-30'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-06-30'\n) AS part_1\n) AS combined",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_north": "none",
+        "madeup_west": "monthly"
+      },
+      "traces": {
+        "madeup_north": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+          "lineage": [
+            "third_party_billed_gross",
+            "rebate_accrual",
+            "deferred_unearned",
+            "prior_period_release",
+            "cash_opex_excl_rent",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        },
+        "madeup_west": {
+          "definition_id": "adjusted_ebitda",
+          "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+          "lineage": [
+            "RecognizedNetSales",
+            "CashOperatingCost",
+            "IntercompanyPurchasesUsd",
+            "OneOffCharges",
+            "ic_approved_addback_functional"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "CashOperatingCost",
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "OneOffCharges",
+          "RecognizedNetSales",
+          "cash_opex_excl_rent",
+          "deferred_unearned",
+          "entity_code",
+          "gbp_per_usd",
+          "ic_approved_addback_functional",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "9283252.18",
+    "display": "GBP 9,283,252.18",
+    "unit": "GBP",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q18",
+    "question": "What was the year-on-year growth in consolidated Net Revenue from FY2024 to FY2025?",
+    "sql": "SELECT\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n) AS part_1\n) AS combined\n  ) AS earlier_q) AS earlier,\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS later_q) AS later",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "earlier": {
+          "madeup_north": "none",
+          "madeup_west": "monthly"
+        },
+        "later": {
+          "madeup_north": "none",
+          "madeup_west": "monthly"
+        }
+      },
+      "traces": {
+        "earlier": {
+          "madeup_north": {
+            "definition_id": "net_revenue",
+            "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+            "lineage": [
+              "third_party_billed_gross",
+              "rebate_accrual",
+              "deferred_unearned",
+              "prior_period_release"
+            ],
+            "grain": "fact"
+          },
+          "madeup_west": {
+            "definition_id": "net_revenue",
+            "expression": "RecognizedNetSales",
+            "lineage": [
+              "RecognizedNetSales"
+            ],
+            "grain": "fact"
+          }
+        },
+        "later": {
+          "madeup_north": {
+            "definition_id": "net_revenue",
+            "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+            "lineage": [
+              "third_party_billed_gross",
+              "rebate_accrual",
+              "deferred_unearned",
+              "prior_period_release"
+            ],
+            "grain": "fact"
+          },
+          "madeup_west": {
+            "definition_id": "net_revenue",
+            "expression": "RecognizedNetSales",
+            "lineage": [
+              "RecognizedNetSales"
+            ],
+            "grain": "fact"
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "MonthEnding",
+          "RecognizedNetSales",
+          "deferred_unearned",
+          "gbp_per_usd",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true,
+      "components": {
+        "earlier": "103588973.80",
+        "later": "110144021.45"
+      }
+    },
+    "status": "answered",
+    "value": "0.063279",
+    "display": "6.3279%",
+    "unit": "ratio",
+    "value_kind": "ratio"
+  },
+  {
+    "question_id": "Q19",
+    "question": "What was Madeup West Assemblies Inc's LTM Net Revenue at Jun 2025, in USD?",
+    "sql": "SELECT SUM((RecognizedNetSales)) AS value\nFROM west.ops.MonthlyPnl AS t\nWHERE t.MonthEnding >= DATE '2024-07-31' AND t.MonthEnding <= DATE '2025-06-30'",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "madeup_west": "none"
+      },
+      "traces": {
+        "madeup_west": {
+          "definition_id": "net_revenue",
+          "expression": "RecognizedNetSales",
+          "lineage": [
+            "RecognizedNetSales"
+          ],
+          "grain": "fact"
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "MonthEnding",
+          "RecognizedNetSales"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": false,
+        "reason": ""
+      },
+      "guard_blocks_execution": true
+    },
+    "status": "answered",
+    "value": "77061184.96",
+    "display": "USD 77,061,184.96",
+    "unit": "USD",
+    "value_kind": "money"
+  },
+  {
+    "question_id": "Q20",
+    "question": "By how many percentage points did the consolidated LTM Adjusted EBITDA margin change from Dec 2024 to Dec 2025?",
+    "sql": "SELECT early.numerator AS earlier_numerator,\n       early.denominator AS earlier_denominator,\n       late.numerator AS later_numerator,\n       late.denominator AS later_denominator\nFROM (\nSELECT\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n) AS part_1\n) AS combined\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2024-01-31' AND t.period_end <= DATE '2024-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2024-01-31' AND t.MonthEnding <= DATE '2024-12-31'\n) AS part_1\n) AS combined\n  ) AS denominator_q) AS denominator\n) AS early\nCROSS JOIN (\nSELECT\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM(((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional)) AS value\nFROM north.ledger.monthly_pack AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_north'\n  AND adj.period_end = t.period_end\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.policy_adjustment AS adj\n  ON adj.entity_code = 'madeup_west'\n  AND adj.period_end = t.MonthEnding\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS numerator_q) AS numerator,\n  (SELECT value FROM (\nSELECT SUM(value) AS value FROM (\nSELECT value FROM (\nSELECT SUM((third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release)) AS value\nFROM north.ledger.monthly_pack AS t\nWHERE t.period_end >= DATE '2025-01-31' AND t.period_end <= DATE '2025-12-31'\n) AS part_0\nUNION ALL\nSELECT value FROM (\nSELECT SUM(CAST((RecognizedNetSales) * fx.gbp_per_usd AS DECIMAL(18,2))) AS value\nFROM west.ops.MonthlyPnl AS t\nINNER JOIN holdco.ref.fx_monthly AS fx\n  ON fx.period_end = t.MonthEnding\nWHERE t.MonthEnding >= DATE '2025-01-31' AND t.MonthEnding <= DATE '2025-12-31'\n) AS part_1\n) AS combined\n  ) AS denominator_q) AS denominator\n) AS late",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {
+        "earlier": {
+          "adjusted_ebitda": {
+            "madeup_north": "none",
+            "madeup_west": "monthly"
+          },
+          "net_revenue": {
+            "madeup_north": "none",
+            "madeup_west": "monthly"
+          }
+        },
+        "later": {
+          "adjusted_ebitda": {
+            "madeup_north": "none",
+            "madeup_west": "monthly"
+          },
+          "net_revenue": {
+            "madeup_north": "none",
+            "madeup_west": "monthly"
+          }
+        }
+      },
+      "traces": {
+        "earlier": {
+          "adjusted_ebitda": {
+            "madeup_north": {
+              "definition_id": "adjusted_ebitda",
+              "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+              "lineage": [
+                "third_party_billed_gross",
+                "rebate_accrual",
+                "deferred_unearned",
+                "prior_period_release",
+                "cash_opex_excl_rent",
+                "ic_approved_addback_functional"
+              ],
+              "grain": "fact"
+            },
+            "madeup_west": {
+              "definition_id": "adjusted_ebitda",
+              "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+              "lineage": [
+                "RecognizedNetSales",
+                "CashOperatingCost",
+                "IntercompanyPurchasesUsd",
+                "OneOffCharges",
+                "ic_approved_addback_functional"
+              ],
+              "grain": "fact"
+            }
+          },
+          "net_revenue": {
+            "madeup_north": {
+              "definition_id": "net_revenue",
+              "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+              "lineage": [
+                "third_party_billed_gross",
+                "rebate_accrual",
+                "deferred_unearned",
+                "prior_period_release"
+              ],
+              "grain": "fact"
+            },
+            "madeup_west": {
+              "definition_id": "net_revenue",
+              "expression": "RecognizedNetSales",
+              "lineage": [
+                "RecognizedNetSales"
+              ],
+              "grain": "fact"
+            }
+          }
+        },
+        "later": {
+          "adjusted_ebitda": {
+            "madeup_north": {
+              "definition_id": "adjusted_ebitda",
+              "expression": "(third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release) - cash_opex_excl_rent + adj.ic_approved_addback_functional",
+              "lineage": [
+                "third_party_billed_gross",
+                "rebate_accrual",
+                "deferred_unearned",
+                "prior_period_release",
+                "cash_opex_excl_rent",
+                "ic_approved_addback_functional"
+              ],
+              "grain": "fact"
+            },
+            "madeup_west": {
+              "definition_id": "adjusted_ebitda",
+              "expression": "RecognizedNetSales - (CashOperatingCost - IntercompanyPurchasesUsd - OneOffCharges) + adj.ic_approved_addback_functional",
+              "lineage": [
+                "RecognizedNetSales",
+                "CashOperatingCost",
+                "IntercompanyPurchasesUsd",
+                "OneOffCharges",
+                "ic_approved_addback_functional"
+              ],
+              "grain": "fact"
+            }
+          },
+          "net_revenue": {
+            "madeup_north": {
+              "definition_id": "net_revenue",
+              "expression": "third_party_billed_gross - rebate_accrual - deferred_unearned + prior_period_release",
+              "lineage": [
+                "third_party_billed_gross",
+                "rebate_accrual",
+                "deferred_unearned",
+                "prior_period_release"
+              ],
+              "grain": "fact"
+            },
+            "madeup_west": {
+              "definition_id": "net_revenue",
+              "expression": "RecognizedNetSales",
+              "lineage": [
+                "RecognizedNetSales"
+              ],
+              "grain": "fact"
+            }
+          }
+        }
+      },
+      "definition_guard": {
+        "passed": true,
+        "columns": [
+          "CashOperatingCost",
+          "IntercompanyPurchasesUsd",
+          "MonthEnding",
+          "OneOffCharges",
+          "RecognizedNetSales",
+          "cash_opex_excl_rent",
+          "deferred_unearned",
+          "denominator",
+          "entity_code",
+          "gbp_per_usd",
+          "ic_approved_addback_functional",
+          "numerator",
+          "period_end",
+          "prior_period_release",
+          "rebate_accrual",
+          "third_party_billed_gross",
+          "value"
+        ],
+        "rejected_columns": [],
+        "sum_multiplied_by_rate": false,
+        "require_monthly_fx": true,
+        "reason": ""
+      },
+      "guard_blocks_execution": true,
+      "components": {
+        "earlier_ratio": "0.171125",
+        "later_ratio": "0.171350"
+      }
+    },
+    "status": "answered",
+    "value": "0.0225",
+    "display": "0.0225 pp",
+    "unit": "percentage_points",
+    "value_kind": "percentage_points"
+  },
+  {
+    "question_id": "Q21",
+    "question": "What was consolidated return on advertising spend in FY2025?",
+    "sql": null,
+    "status": "unanswerable",
+    "value": null,
+    "display": "unanswerable",
+    "unit": null,
+    "value_kind": "unanswerable",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {},
+      "traces": {},
+      "definition_guard": {
+        "passed": null,
+        "reason": "no agreed definition and no mapped fact column"
+      },
+      "guard_blocks_execution": true,
+      "missing_concept": "advertising_spend",
+      "reason": "The stand-in has no agreed definition for this concept and does not invent a column."
+    }
+  },
+  {
+    "question_id": "Q22",
+    "question": "What was consolidated like-for-like organic revenue growth excluding acquisitions in FY2025?",
+    "sql": null,
+    "status": "unanswerable",
+    "value": null,
+    "display": "unanswerable",
+    "unit": null,
+    "value_kind": "unanswerable",
+    "provenance": {
+      "condition": "stand_in_grounded",
+      "stand_in": true,
+      "language_model": false,
+      "not_auto_ontology_runtime": true,
+      "fx_modes": {},
+      "traces": {},
+      "definition_guard": {
+        "passed": null,
+        "reason": "no agreed definition and no mapped fact column"
+      },
+      "guard_blocks_execution": true,
+      "missing_concept": "organic_revenue_excluding_acquisitions",
+      "reason": "The stand-in has no agreed definition for this concept and does not invent a column."
+    }
+  }
+]

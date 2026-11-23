@@ -1,0 +1,659 @@
+{
+  "upstream_repo": "https://github.com/NVIDIA/auto-ontology",
+  "upstream_license": "Apache-2.0",
+  "commit": "fc43a82600e18b19d159c52023f54f5572f537ac",
+  "remote": "https://github.com/NVIDIA/auto-ontology.git",
+  "source_path_used": "/tmp/auto-ontology",
+  "docker": {
+    "available": false,
+    "executable": null,
+    "compose_ran": false
+  },
+  "uv_available": false,
+  "model_keys": {
+    "any_model_key": false,
+    "kumo_rfm_api_key_set": false,
+    "names_checked": [
+      "DEFAULT_MODELS_API_KEY",
+      "NVIDIA_API_KEY",
+      "OPENAI_API_KEY",
+      "OPENAI_BASE_URL",
+      "AZURE_OPENAI_API_KEY",
+      "GROQ_API_KEY",
+      "TOGETHER_API_KEY",
+      "FIREWORKS_API_KEY",
+      "KUMO_RFM_API_KEY"
+    ],
+    "flags": {
+      "DEFAULT_MODELS_API_KEY": false,
+      "NVIDIA_API_KEY": false,
+      "OPENAI_API_KEY": false,
+      "OPENAI_BASE_URL": false,
+      "AZURE_OPENAI_API_KEY": false,
+      "GROQ_API_KEY": false,
+      "TOGETHER_API_KEY": false,
+      "FIREWORKS_API_KEY": false,
+      "KUMO_RFM_API_KEY": false
+    }
+  },
+  "kumo_rfm": "off",
+  "uploaded_data": false,
+  "services_started": false,
+  "ports_not_opened": [
+    3000,
+    3001,
+    3002,
+    3003,
+    5432
+  ],
+  "package_imports": {
+    "auto_ontology.connectors": {
+      "ok": false,
+      "returncode": 1,
+      "error": "ModuleNotFoundError: No module named 'httpx'"
+    },
+    "auto_ontology.semantic.term_extractor": {
+      "ok": false,
+      "returncode": 1,
+      "error": "ModuleNotFoundError: No module named 'langchain_core'"
+    },
+    "auto_ontology.semantic.deterministic": {
+      "ok": false,
+      "returncode": 1,
+      "error": "ModuleNotFoundError: No module named 'langchain_core'"
+    }
+  },
+  "extraction": {
+    "loaded": true,
+    "load_error": null,
+    "databases": {
+      "north": {
+        "path_name": "madeup_north.duckdb",
+        "methods": {
+          "get_tables": {
+            "ok": true,
+            "rows": 3,
+            "columns": [
+              "table_schema",
+              "table_name"
+            ]
+          },
+          "get_columns": {
+            "ok": true,
+            "rows": 20,
+            "columns": [
+              "table_schema",
+              "table_name",
+              "column_name",
+              "data_type",
+              "is_nullable",
+              "ordinal_position"
+            ]
+          },
+          "get_views": {
+            "ok": true,
+            "rows": 48,
+            "columns": [
+              "table_schema",
+              "table_name",
+              "view_definition"
+            ]
+          },
+          "get_pks": {
+            "ok": true,
+            "rows": 0,
+            "columns": []
+          },
+          "get_fks": {
+            "ok": true,
+            "rows": 0,
+            "columns": []
+          },
+          "get_queries": {
+            "ok": true,
+            "rows": 0,
+            "columns": [
+              "query_text",
+              "end_time"
+            ]
+          }
+        },
+        "extract_ok": true,
+        "database_name": "madeup_north",
+        "n_tables": 3,
+        "n_columns": 20,
+        "n_user_tables": 3,
+        "n_pks": 0,
+        "n_fks": 0,
+        "user_tables": [
+          {
+            "table_schema": "ledger",
+            "table_name": "about"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "v_management_headline"
+          }
+        ],
+        "user_columns": [
+          {
+            "table_schema": "ledger",
+            "table_name": "about",
+            "column_name": "legal_name",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "about",
+            "column_name": "fiction_notice",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "about",
+            "column_name": "functional_currency",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "about",
+            "column_name": "local_revenue_definition",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "about",
+            "column_name": "local_ebitda_definition",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "period_end",
+            "data_type": "DATE"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "third_party_billed_gross",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "intercompany_billed_gross",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "billed_turnover_gross",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "rebate_accrual",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "deferred_unearned",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "prior_period_release",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "cash_opex_excl_rent",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "property_rent",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "one_off_costs",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "mgmt_addback_proposed",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "monthly_pack",
+            "column_name": "reported_ebitda",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "v_management_headline",
+            "column_name": "period_end",
+            "data_type": "DATE"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "v_management_headline",
+            "column_name": "turnover",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ledger",
+            "table_name": "v_management_headline",
+            "column_name": "ebitda",
+            "data_type": "DECIMAL(18,2)"
+          }
+        ],
+        "get_pks_rows": 0,
+        "get_fks_rows": 0
+      },
+      "west": {
+        "path_name": "madeup_west.duckdb",
+        "methods": {
+          "get_tables": {
+            "ok": true,
+            "rows": 3,
+            "columns": [
+              "table_schema",
+              "table_name"
+            ]
+          },
+          "get_columns": {
+            "ok": true,
+            "rows": 21,
+            "columns": [
+              "table_schema",
+              "table_name",
+              "column_name",
+              "data_type",
+              "is_nullable",
+              "ordinal_position"
+            ]
+          },
+          "get_views": {
+            "ok": true,
+            "rows": 48,
+            "columns": [
+              "table_schema",
+              "table_name",
+              "view_definition"
+            ]
+          },
+          "get_pks": {
+            "ok": true,
+            "rows": 0,
+            "columns": []
+          },
+          "get_fks": {
+            "ok": true,
+            "rows": 0,
+            "columns": []
+          },
+          "get_queries": {
+            "ok": true,
+            "rows": 0,
+            "columns": [
+              "query_text",
+              "end_time"
+            ]
+          }
+        },
+        "extract_ok": true,
+        "database_name": "madeup_west",
+        "n_tables": 3,
+        "n_columns": 21,
+        "n_user_tables": 3,
+        "n_pks": 0,
+        "n_fks": 0,
+        "user_tables": [
+          {
+            "table_schema": "ops",
+            "table_name": "About"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "v_BoardPack"
+          }
+        ],
+        "user_columns": [
+          {
+            "table_schema": "ops",
+            "table_name": "About",
+            "column_name": "LegalName",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "About",
+            "column_name": "FictionNotice",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "About",
+            "column_name": "FunctionalCurrency",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "About",
+            "column_name": "LocalRevenueDefinition",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "About",
+            "column_name": "LocalEbitdaDefinition",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "MonthEnding",
+            "data_type": "DATE"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "RecognizedNetSales",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "GrossBillings",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "RebateContra",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "BilledNotRecognized",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "UnbilledRecognised",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "CashOperatingCost",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "IntercompanyPurchasesUsd",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "OneOffCharges",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "MgmtAddbackBooked",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "LeaseDepreciation",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "LeaseInterest",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "MonthlyPnl",
+            "column_name": "EbitdaAfterAddbacks",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "v_BoardPack",
+            "column_name": "MonthEnding",
+            "data_type": "DATE"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "v_BoardPack",
+            "column_name": "GrossBillings",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ops",
+            "table_name": "v_BoardPack",
+            "column_name": "EbitdaAfterAddbacks",
+            "data_type": "DECIMAL(18,2)"
+          }
+        ],
+        "get_pks_rows": 0,
+        "get_fks_rows": 0
+      },
+      "holdco": {
+        "path_name": "madeup_holdco.duckdb",
+        "methods": {
+          "get_tables": {
+            "ok": true,
+            "rows": 4,
+            "columns": [
+              "table_schema",
+              "table_name"
+            ]
+          },
+          "get_columns": {
+            "ok": true,
+            "rows": 15,
+            "columns": [
+              "table_schema",
+              "table_name",
+              "column_name",
+              "data_type",
+              "is_nullable",
+              "ordinal_position"
+            ]
+          },
+          "get_views": {
+            "ok": true,
+            "rows": 47,
+            "columns": [
+              "table_schema",
+              "table_name",
+              "view_definition"
+            ]
+          },
+          "get_pks": {
+            "ok": true,
+            "rows": 0,
+            "columns": []
+          },
+          "get_fks": {
+            "ok": true,
+            "rows": 0,
+            "columns": []
+          },
+          "get_queries": {
+            "ok": true,
+            "rows": 0,
+            "columns": [
+              "query_text",
+              "end_time"
+            ]
+          }
+        },
+        "extract_ok": true,
+        "database_name": "madeup_holdco",
+        "n_tables": 4,
+        "n_columns": 15,
+        "n_user_tables": 4,
+        "n_pks": 0,
+        "n_fks": 0,
+        "user_tables": [
+          {
+            "table_schema": "ref",
+            "table_name": "about"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "entity"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "fx_monthly"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "policy_adjustment"
+          }
+        ],
+        "user_columns": [
+          {
+            "table_schema": "ref",
+            "table_name": "about",
+            "column_name": "legal_name",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "about",
+            "column_name": "fiction_notice",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "about",
+            "column_name": "reporting_currency",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "entity",
+            "column_name": "entity_code",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "entity",
+            "column_name": "legal_name",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "entity",
+            "column_name": "functional_currency",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "entity",
+            "column_name": "country",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "entity",
+            "column_name": "ownership_note",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "fx_monthly",
+            "column_name": "period_end",
+            "data_type": "DATE"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "fx_monthly",
+            "column_name": "gbp_per_usd",
+            "data_type": "DECIMAL(18,6)"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "policy_adjustment",
+            "column_name": "entity_code",
+            "data_type": "VARCHAR"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "policy_adjustment",
+            "column_name": "period_end",
+            "data_type": "DATE"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "policy_adjustment",
+            "column_name": "proposed_addback_functional",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "policy_adjustment",
+            "column_name": "ic_approved_addback_functional",
+            "data_type": "DECIMAL(18,2)"
+          },
+          {
+            "table_schema": "ref",
+            "table_name": "policy_adjustment",
+            "column_name": "rejected_addback_functional",
+            "data_type": "DECIMAL(18,2)"
+          }
+        ],
+        "get_pks_rows": 0,
+        "get_fks_rows": 0
+      }
+    }
+  },
+  "python_version": "3.12.3",
+  "duckdb_version": "2.0.0",
+  "pandas_version": "2.3.3",
+  "plain_language_sentences": [
+    "Auto Ontology source commit fc43a82600e18b19d159c52023f54f5572f537ac from https://github.com/NVIDIA/auto-ontology.git was used read-only.",
+    "Docker was not available, so Docker Compose was not started.",
+    "No NVIDIA or OpenAI-compatible model API key was set, so the model was not called.",
+    "KumoRFM was off and no table was uploaded.",
+    "The web UI on port 3000, the backend on port 3001, the ingestion service on port 3002, the MCP server on port 3003, and Postgres on port 5432 were not started.",
+    "Package imports of auto_ontology.connectors, auto_ontology.semantic.term_extractor, auto_ontology.semantic.deterministic were attempted and did not succeed, because those modules import database engines and a model client that are not installed here.",
+    "DuckDBDatabase and extract_tabular_db_data were loaded from the upstream source by importing those modules directly, skipping the package inits that pull in every engine and the embedding client.",
+    "Python 3.12.3, DuckDB 2.0.0, and pandas 2.3.3 ran that extraction.",
+    "extract_tabular_db_data on north returned 3 tables and 20 columns. 3 of those tables were in the portfolio schemas. get_pks returned 0 rows and get_fks returned 0 rows.",
+    "extract_tabular_db_data on west returned 3 tables and 21 columns. 3 of those tables were in the portfolio schemas. get_pks returned 0 rows and get_fks returned 0 rows.",
+    "extract_tabular_db_data on holdco returned 4 tables and 15 columns. 4 of those tables were in the portfolio schemas. get_pks returned 0 rows and get_fks returned 0 rows."
+  ]
+}

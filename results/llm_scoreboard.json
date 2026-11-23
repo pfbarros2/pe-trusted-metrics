@@ -1,0 +1,606 @@
+{
+  "harness": "real_model",
+  "language_model": true,
+  "fiction": true,
+  "endpoint": "https://integrate.api.nvidia.com/v1/chat/completions",
+  "temperature": 0,
+  "model_sees": {
+    "llm_baseline": "question text + DuckDB schema (table and column names and types)",
+    "llm_grounded": "question text + fund definitions YAML + the same DuckDB schema",
+    "structured_task_block_sent": false
+  },
+  "scoring": "same deterministic ground truth (results/ground_truth.json) and tolerances as the stand-in",
+  "repair_policy": "at most one follow-up turn per question, for a SQL execution error or an unparseable reply, in both conditions",
+  "guard": "repo SQL guard (pe_metrics.sql_guard) applied after the fact; correct_if_guard_blocks counts a guard rejection as not answered. Not Auto Ontology.",
+  "auto_ontology": {
+    "auto_ontology_commit": "fc43a82600e18b19d159c52023f54f5572f537ac",
+    "functions_run": [
+      "auto_ontology.connectors.duckdb.DuckDBDatabase",
+      "auto_ontology.catalog.extract.extract_tabular_db_data",
+      "auto_ontology.catalog.parsers.schemas_parser.parse_df",
+      "auto_ontology.catalog.sql_parse.parse_query_single"
+    ],
+    "substitution": "schemas_parser.get_table_ids and get_column_ids were replaced with pass-through functions because no Postgres catalog store was running; upstream returns the same frames when the store is empty.",
+    "queries_sent_to_parser": 123,
+    "queries_parsed": 123
+  },
+  "kumo_rfm": "off",
+  "models_planned_not_run": [
+    {
+      "model": "mistralai/mistral-large-4-1t-a52b",
+      "reason": "skipped for time: the account's throughput was too low to finish a second model on 2026-11-13; two started attempts were stopped before any answer was recorded"
+    }
+  ],
+  "models": [
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b",
+      "model_returned": [
+        "nvidia/nemotron-3-ultra-550b-a55b"
+      ],
+      "run_date": "2026-11-23",
+      "resume_note": "Single uninterrupted run on 2026-11-23 after the grounded prompt heading was reworded to 'AGREED FUND METRIC DEFINITIONS'. No rows were reused from the 2026-11-13 run.",
+      "run_started_utc": "2026-11-23T08:24:48+00:00",
+      "run_finished_utc": "2026-11-23T08:37:17+00:00",
+      "max_tokens": 16000,
+      "repeats": 3,
+      "completion_tokens": 278368,
+      "prompt_tokens": 344536,
+      "model_calls": 137,
+      "conditions": {
+        "llm_baseline": {
+          "n_questions": 22,
+          "repeats": 3,
+          "per_repeat": [
+            {
+              "repeat": 1,
+              "correct": 7,
+              "n": 22,
+              "display": "7/22",
+              "correct_if_guard_blocks": 4,
+              "guard_passed": 2,
+              "sql_errors_after_repair": 0,
+              "format_failures": 0
+            },
+            {
+              "repeat": 2,
+              "correct": 7,
+              "n": 22,
+              "display": "7/22",
+              "correct_if_guard_blocks": 4,
+              "guard_passed": 2,
+              "sql_errors_after_repair": 0,
+              "format_failures": 0
+            },
+            {
+              "repeat": 3,
+              "correct": 7,
+              "n": 22,
+              "display": "7/22",
+              "correct_if_guard_blocks": 2,
+              "guard_passed": 2,
+              "sql_errors_after_repair": 0,
+              "format_failures": 0
+            }
+          ],
+          "correct_counts": [
+            7,
+            7,
+            7
+          ],
+          "mean_correct": "7.00",
+          "min_correct": 7,
+          "max_correct": 7,
+          "pooled_correct": 21,
+          "pooled_attempts": 66,
+          "questions_always_correct": [
+            "Q02",
+            "Q12",
+            "Q16",
+            "Q19",
+            "Q21",
+            "Q22"
+          ],
+          "questions_never_correct": [
+            "Q01",
+            "Q03",
+            "Q04",
+            "Q05",
+            "Q06",
+            "Q07",
+            "Q08",
+            "Q09",
+            "Q10",
+            "Q11",
+            "Q14",
+            "Q17",
+            "Q18",
+            "Q20"
+          ],
+          "questions_unstable": [
+            "Q13",
+            "Q15"
+          ],
+          "per_question": {
+            "Q01": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q02": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q03": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q04": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q05": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q06": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q07": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q08": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q09": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q10": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q11": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q12": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q13": {
+              "correct_in_repeats": 1,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "correct"
+              ]
+            },
+            "Q14": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q15": {
+              "correct_in_repeats": 2,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "incorrect"
+              ]
+            },
+            "Q16": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q17": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q18": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q19": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q20": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q21": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q22": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            }
+          },
+          "lineage_check_passed": 8,
+          "auto_ontology_parsed": 60,
+          "sql_executed": 60
+        },
+        "llm_grounded": {
+          "n_questions": 22,
+          "repeats": 3,
+          "per_repeat": [
+            {
+              "repeat": 1,
+              "correct": 20,
+              "n": 22,
+              "display": "20/22",
+              "correct_if_guard_blocks": 18,
+              "guard_passed": 18,
+              "sql_errors_after_repair": 0,
+              "format_failures": 0
+            },
+            {
+              "repeat": 2,
+              "correct": 20,
+              "n": 22,
+              "display": "20/22",
+              "correct_if_guard_blocks": 17,
+              "guard_passed": 17,
+              "sql_errors_after_repair": 0,
+              "format_failures": 0
+            },
+            {
+              "repeat": 3,
+              "correct": 20,
+              "n": 22,
+              "display": "20/22",
+              "correct_if_guard_blocks": 17,
+              "guard_passed": 17,
+              "sql_errors_after_repair": 0,
+              "format_failures": 0
+            }
+          ],
+          "correct_counts": [
+            20,
+            20,
+            20
+          ],
+          "mean_correct": "20.00",
+          "min_correct": 20,
+          "max_correct": 20,
+          "pooled_correct": 60,
+          "pooled_attempts": 66,
+          "questions_always_correct": [
+            "Q01",
+            "Q02",
+            "Q03",
+            "Q04",
+            "Q05",
+            "Q06",
+            "Q07",
+            "Q08",
+            "Q09",
+            "Q10",
+            "Q11",
+            "Q12",
+            "Q13",
+            "Q14",
+            "Q15",
+            "Q16",
+            "Q17",
+            "Q18",
+            "Q19",
+            "Q21"
+          ],
+          "questions_never_correct": [
+            "Q20",
+            "Q22"
+          ],
+          "questions_unstable": [],
+          "per_question": {
+            "Q01": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q02": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q03": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q04": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q05": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q06": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q07": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q08": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q09": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q10": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q11": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q12": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q13": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q14": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q15": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q16": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q17": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q18": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q19": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q20": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            },
+            "Q21": {
+              "correct_in_repeats": 3,
+              "repeats": 3,
+              "marks": [
+                "correct",
+                "correct",
+                "correct"
+              ]
+            },
+            "Q22": {
+              "correct_in_repeats": 0,
+              "repeats": 3,
+              "marks": [
+                "incorrect",
+                "incorrect",
+                "incorrect"
+              ]
+            }
+          },
+          "lineage_check_passed": 60,
+          "auto_ontology_parsed": 63,
+          "sql_executed": 63
+        }
+      }
+    }
+  ]
+}
